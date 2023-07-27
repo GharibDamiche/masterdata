@@ -6,7 +6,6 @@ require (
 	github.com/antonmedv/expr v1.12.6
 	github.com/arangodb/go-driver v1.6.0
 	github.com/redis/go-redis/v9 v9.0.5
-	gitlab.com/tmds-io/core-model/hyperion/contract.git/v2 v2.31.5
 	gitlab.com/tmds-io/core-model/hyperion/kore.git/v2 v2.60.1
 )
 
