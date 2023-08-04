@@ -2,47 +2,42 @@ package processor
 
 import (
 	"context"
-	"fmt"
-	"github.com/antonmedv/expr"
-	"github.com/antonmedv/expr/ast"
-	"github.com/antonmedv/expr/vm"
-	"github.com/tmds-io/masterdata/service/model/data_value"
+	"github.com/Knetic/govaluate"
+	model "github.com/tmds-io/masterdata/service/model/data_value"
 )
 
 type Resolver struct {
-	repository data_value.DataValueRepositoryInterface
-	parser     Parser
+	parser *Parser
 }
 
 // @Service(tag="processor.resolver")
-func NewResolver(repository data_value.DataValueRepositoryInterface, parser Parser) *Resolver {
-	return &Resolver{repository: repository, parser: parser}
+func NewResolver(parser *Parser) *Resolver {
+	return &Resolver{
+		parser: parser,
+	}
 }
 
-func (r *Resolver) Resolve(ctx context.Context, dataValue data_value.DataValue) (interface{}, error) {
-	env := make(map[string]interface{})
-	tree, _ := r.parser.Parse(dataValue.Expression)
-
-	ast.Walk(tree.Node, func(node ast.Node) bool {
-		if n, ok := node.(*ast.IdentifierNode); ok {
-			value, err := r.Resolve(n.Name)
-			if err != nil {
-				return false
-			}
-			env[n.Name] = value
-		}
-		return true
-	})
-
-	program, err := vm.Compile(tree.Node, expr.Env(env))
+func (r *Resolver) Resolve(ctx context.Context, dataValue *model.DataValue) (float64, error) {
+	expression, err := r.parser.Parse(ctx, dataValue)
 	if err != nil {
-		return nil, fmt.Errorf("failed to compile expression: %v", err)
+		return 0, err
 	}
 
-	result, err := expr.Run(program, env)
+	return r.resolveExpression(expression)
+}
+
+func (r *Resolver) resolveExpression(expression string) (float64, error) {
+
+	// Evaluate the expression
+	evaluableExpression, err := govaluate.NewEvaluableExpression(expression)
 	if err != nil {
-		return nil, err
+		return 0, err // Syntax error
 	}
 
-	return result, nil
+	result, err := evaluableExpression.Evaluate(nil)
+	if err != nil {
+		return 0, err // Evaluation error
+	}
+
+	return result.(float64), nil
 }

@@ -2,59 +2,77 @@ package processor
 
 import (
 	"context"
-	"fmt"
-	"github.com/antonmedv/expr/ast"
-	expr_parser "github.com/antonmedv/expr/parser"
-	"github.com/tmds-io/masterdata/service/model/data_value"
+	"github.com/Knetic/govaluate"
+	model "github.com/tmds-io/masterdata/service/model/data_value"
 	"gitlab.com/tmds-io/core-model/hyperion/kore.git/v2/core/errors"
+	"regexp"
+	"strings"
 )
 
 type Parser struct {
-	repository data_value.DataValueRepository // Your database interface
+	repository model.DataValueRepository // Your database interface
 }
 
-func (p *Parser) Parse(ctx context.Context, expr string) (*ast.Node, error) {
-	tree, err := expr_parser.Parse(expr)
-	if err != nil {
-		return nil, errors.New("invalid expression syntax")
+// @Service(tag="processor.parser")
+func NewParser(repository model.DataValueRepository) *Parser {
+	return &Parser{
+		repository: repository,
 	}
-
-	// Check if all identifiers exist in the database and if there are circular dependencies.
-	keys := ast.GetIdentifiers(tree.Node)
-	visited := map[string]bool{}
-	for _, key := range keys {
-		if err := p.checkKey(ctx, key, visited); err != nil {
-			return nil, err
-		}
-	}
-
-	return &tree, nil
 }
 
-func (p *Parser) checkKey(ctx context.Context, key string, visited map[string]bool) error {
-	if visited[key] {
-		return fmt.Errorf("circular dependency detected at key %s", key)
-	}
-
-	dataValue := data_value.NewDataValue(key)
-	err := p.repository.Read(ctx, dataValue)
+func (p *Parser) Parse(ctx context.Context, dataValue *model.DataValue) (string, error) {
+	err := p.checkSyntax(dataValue)
 	if err != nil {
-		return fmt.Errorf("unknown key %s", key)
+		return "", err
 	}
 
-	visited[key] = true
-
-	tree, err := expr_parser.Parse(dataValue.Expression)
+	// Extract keys and check for circular dependencies
+	parsedExpression, err := p.doParse(ctx, dataValue.Key, dataValue.Expression)
 	if err != nil {
-		return errors.New("invalid expression syntax")
+		return "", err
 	}
 
-	identifiers := ast.GetIdentifiers(tree.Node)
-	for _, id := range identifiers {
-		if err := p.checkKey(id, visited); err != nil {
-			return err
+	return parsedExpression, nil
+}
+
+func (p *Parser) checkSyntax(dataValue *model.DataValue) error {
+	// Syntax Check
+	_, err := govaluate.NewEvaluableExpression(dataValue.Expression)
+
+	return err
+}
+
+func (p *Parser) doParse(ctx context.Context, originalKey string, expression string) (string, error) {
+	// Extract rawKeys from expression
+	regex := regexp.MustCompile(`\$\w+\$`)
+	rawKeys := regex.FindAllString(expression, -1)
+
+	for _, rawKey := range rawKeys {
+		// Remove $ symbols from rawKeys
+		key := rawKey[1 : len(rawKey)-1]
+		if key == originalKey {
+			return "", errors.New("circular dependency detected: " + key)
 		}
+
+		childDataValue, err := p.repository.GetByKey(ctx, key)
+		if err != nil || childDataValue == nil {
+			return "", errors.New("key not found: " + key)
+		}
+
+		err = p.checkSyntax(childDataValue)
+		if err != nil {
+			return "", err
+		}
+
+		// Recursively doParse dependencies
+		parsedChildExpression, err := p.doParse(ctx, originalKey, childDataValue.Expression)
+		if err != nil {
+			return "", err
+		}
+
+		expression = strings.Replace(expression, "$"+key+"$", parsedChildExpression, -1)
+
 	}
 
-	return nil
+	return expression, nil
 }

@@ -3,6 +3,7 @@ module github.com/tmds-io/masterdata
 go 1.20
 
 require (
+	github.com/Knetic/govaluate v3.0.0+incompatible
 	github.com/antonmedv/expr v1.12.6
 	github.com/arangodb/go-driver v1.6.0
 	github.com/redis/go-redis/v9 v9.0.5
