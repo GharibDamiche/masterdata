@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package contract;
+
+import "contract/data_value/data_value.proto";
+
+option go_package = "github.com/tmds-io/masterdata/contract;contract";
+
+// DataDefinition contains a collection of DataValues.
+service DataDefinitionHandler {
+  rpc Read (ReadDataDefinitionRequest) returns (ReadDataDefinitionResponse) {}
+
+  rpc Save (SaveDataDefinitionRequest) returns (SaveDataDefinitionResponse) {}
+
+  rpc Delete (DeleteDataDefinitionRequest) returns (DeleteDataDefinitionResponse) {}
+
+  rpc Search (SearchDataDefinitionRequest) returns (SearchDataDefinitionResponse) {}
+}
+
+// Request to read a DataDefinition by ID.
+message ReadDataDefinitionRequest {
+  string data_definition_id = 1; // ID of the DataDefinition to read
+}
+
+// Response containing a DataDefinition.
+message ReadDataDefinitionResponse {
+  DataDefinition data_definition = 1; // The retrieved DataDefinition
+}
+
+// Request to save a DataDefinition.
+message SaveDataDefinitionRequest {
+  DataDefinition data_definition = 1; // The DataDefinition to save
+}
+
+// Response indicating the status of the save operation.
+message SaveDataDefinitionResponse {
+  bool success = 1; // Indicates whether the save operation was successful
+  string error_message = 2; // Error message if the operation was not successful
+}
+
+// Request to delete a DataDefinition by ID.
+message DeleteDataDefinitionRequest {
+  int64 data_definition_id = 1; // ID of the DataDefinition to delete
+}
+
+// Response indicating the status of the delete operation.
+message DeleteDataDefinitionResponse {
+  bool success = 1; // Indicates whether the delete operation was successful
+  string error_message = 2; // Error message if the operation was not successful
+}
+
+// Request to search for DataDefinitions based on criteria.
+message SearchDataDefinitionRequest {
+  string keyword = 1; // Keyword to search for in DataDefinitions
+}
+
+// Response containing a list of matching DataDefinitions.
+message SearchDataDefinitionResponse {
+  repeated DataDefinition data_definitions = 1; // List of matching DataDefinitions
+}
+
+// You can define the DataDefinition message here (or import it if it's defined in another file)

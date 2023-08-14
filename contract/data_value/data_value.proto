@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package contract;
+
+option go_package = "github.com/tmds-io/masterdata/contract;contract";
+
+// DataValue represents a single data value with an ID, Key, and Expression.
+message DataValue {
+  int64 id = 1;        // Unique identifier for the DataValue
+  string key = 2;      // Key associated with the DataValue
+  string expression = 3; // Mathematical expression associated with the DataValue
+}
