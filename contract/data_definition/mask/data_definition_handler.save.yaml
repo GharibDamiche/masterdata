@@ -1,0 +1,14 @@
+# contract/data_definition/data_definition.proto message SaveDataDefinitionRequest
+# data_definition:
+#     category_id: null
+#     default_segments:
+#         key: null
+#         value: null
+#     default_type: null
+#     default_unit_id: null
+#     id: null
+#     key: null
+#     name: null
+#     updated_at:
+#         timestamp: null
+#     visibility: null

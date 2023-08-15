@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package contract;
 
+import "core/db/timestamp.proto";
+import "core/db/arangodb/filter.proto";
 import "contract/data_value/data_value.proto";
 
 option go_package = "github.com/tmds-io/masterdata/contract;contract";
@@ -15,6 +17,23 @@ service DataDefinitionHandler {
   rpc Delete (DeleteDataDefinitionRequest) returns (DeleteDataDefinitionResponse) {}
 
   rpc Search (SearchDataDefinitionRequest) returns (SearchDataDefinitionResponse) {}
+}
+
+enum DataType {
+  RAW = 0;
+  PROCESSED = 1;
+}
+
+message DataDefinition {
+  string id = 1; // Unique identifier for the DataDefinition
+  string key = 2; // Unique Key code (used as id in db)
+  string name = 3; // Name of the data definition
+  string category_id = 4; // Category of the data definition
+  DataType default_type = 5; // Type of the data definition by default
+  map<string, string> default_segments = 6; // Association SegmentId / Value
+  string default_unit_id = 7; // Unit of the data definition by default
+  string visibility = 8; // Should the data definition be visible
+  db.Timestamp updated_at = 101; // Date of the last update
 }
 
 // Request to read a DataDefinition by ID.
@@ -34,8 +53,7 @@ message SaveDataDefinitionRequest {
 
 // Response indicating the status of the save operation.
 message SaveDataDefinitionResponse {
-  bool success = 1; // Indicates whether the save operation was successful
-  string error_message = 2; // Error message if the operation was not successful
+  string id = 1; // ID of the DataDefinition created
 }
 
 // Request to delete a DataDefinition by ID.
@@ -45,18 +63,15 @@ message DeleteDataDefinitionRequest {
 
 // Response indicating the status of the delete operation.
 message DeleteDataDefinitionResponse {
-  bool success = 1; // Indicates whether the delete operation was successful
-  string error_message = 2; // Error message if the operation was not successful
+  string id = 1; // ID of the DataDefinition deleted
 }
 
 // Request to search for DataDefinitions based on criteria.
 message SearchDataDefinitionRequest {
-  string keyword = 1; // Keyword to search for in DataDefinitions
+  arangodb.Filters filters = 1;
 }
 
 // Response containing a list of matching DataDefinitions.
 message SearchDataDefinitionResponse {
   repeated DataDefinition data_definitions = 1; // List of matching DataDefinitions
 }
-
-// You can define the DataDefinition message here (or import it if it's defined in another file)
