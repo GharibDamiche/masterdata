@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package contract;
 
-option go_package = "github.com/tmds-io/masterdata/contract;contract";
+option go_package = "github.com/tmds-io/masterdata/contract/data_value;data_value";
 
 // DataValue represents a single data value with an ID, Key, and Expression.
 message DataValue {

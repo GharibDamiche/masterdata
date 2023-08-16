@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+package contract;
+
+import "core/db/timestamp.proto";
+import "core/db/arangodb/filter.proto";
+
+option go_package = "github.com/tmds-io/masterdata/contract/segment;segment";
+
+message Segment {
+  string id = 1; // Unique identifier for the Segment
+  string name = 2; // Name of the segment for humans
+  string code = 3; // Unique code of the segment
+  int32 position = 4; // Position of the segment in the list of segments
+  repeated SegmentValue values = 5; // List of valid segment values
+}
+
+message SegmentValue {
+  string id = 1; // Unique identifier for the SegmentValue
+  string name = 2; // Name of the segment value for humans
+  string value = 3; // Unique code of the segment value
+  repeated SegmentValue children = 4; // Children segment values to build a tree of values
+}
+
+service SegmentHandler {
+  rpc CreateSegment (CreateSegmentRequest) returns (CreateSegmentResponse) {}
+  rpc ReadSegment (ReadSegmentRequest) returns (ReadSegmentResponse) {}
+  rpc UpdateSegment (UpdateSegmentRequest) returns (UpdateSegmentResponse) {}
+  rpc DeleteSegment (DeleteSegmentRequest) returns (DeleteSegmentResponse) {}
+  rpc ListSegments (SearchSegmentsRequest) returns (SearchSegmentsResponse) {}
+  rpc AddChildSegmentValue (AddChildSegmentValueRequest) returns (AddChildSegmentValueResponse) {}
+}
+
+message CreateSegmentRequest {
+  Segment segment = 1; // Segment to be created
+}
+
+message CreateSegmentResponse {
+  string id = 1; // ID of the created Segment
+}
+
+message ReadSegmentRequest {
+  string id = 1; // ID of the Segment to read
+}
+
+message ReadSegmentResponse {
+  Segment segment = 1; // The retrieved Segment
+}
+
+message UpdateSegmentRequest {
+  Segment segment = 1; // Updated Segment data
+}
+
+message UpdateSegmentResponse {
+  string id = 1; // ID of the updated Segment
+}
+
+message DeleteSegmentRequest {
+  string id = 1; // ID of the Segment to delete
+}
+
+message DeleteSegmentResponse {
+  string id = 1; // ID of the deleted Segment
+}
+
+message SearchSegmentsRequest {
+  arangodb.Filters filters = 1;
+}
+
+message SearchSegmentsResponse {
+  repeated Segment segments = 1; // List of retrieved Segments
+}
+
+message AddChildSegmentValueRequest {
+  string parent_segment_value_id = 1; // ID of the parent SegmentValue to which the child will be added
+  SegmentValue segment_value = 2; // Child SegmentValue to be added
+}
+
+message AddChildSegmentValueResponse {
+  string id = 1; // ID of the added child SegmentValue
+}

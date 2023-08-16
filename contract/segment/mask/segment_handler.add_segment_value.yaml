@@ -1,0 +1,7 @@
+# contract/segment/segment.proto message AddSegmentValueRequest
+# segment_id: null
+# segment_value:
+#     children: {}
+#     id: null
+#     name: null
+#     value: null

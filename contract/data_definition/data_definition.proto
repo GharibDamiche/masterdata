@@ -6,7 +6,7 @@ import "core/db/timestamp.proto";
 import "core/db/arangodb/filter.proto";
 import "contract/data_value/data_value.proto";
 
-option go_package = "github.com/tmds-io/masterdata/contract;contract";
+option go_package = "github.com/tmds-io/masterdata/contract/data_definition;data_definition";
 
 // DataDefinition contains a collection of DataValues.
 service DataDefinitionHandler {
@@ -28,11 +28,13 @@ message DataDefinition {
   string id = 1; // Unique identifier for the DataDefinition
   string key = 2; // Unique Key code (used as id in db)
   string name = 3; // Name of the data definition
-  string category_id = 4; // Category of the data definition
+  repeated string category_value_ids = 4; // Category of the data definition
   DataType default_type = 5; // Type of the data definition by default
-  map<string, string> default_segments = 6; // Association SegmentId / Value
-  string default_unit_id = 7; // Unit of the data definition by default
+  repeated string default_segment_ids = 6; // Association SegmentId / Value
+  string default_measurement_unit_id = 7; // Unit of the data definition by default
   string visibility = 8; // Should the data definition be visible
+  bool is_default_overloadable = 9;
+  string description = 10;
   db.Timestamp updated_at = 101; // Date of the last update
 }
 
@@ -58,7 +60,7 @@ message SaveDataDefinitionResponse {
 
 // Request to delete a DataDefinition by ID.
 message DeleteDataDefinitionRequest {
-  int64 data_definition_id = 1; // ID of the DataDefinition to delete
+  string id = 1; // ID of the DataDefinition to delete
 }
 
 // Response indicating the status of the delete operation.

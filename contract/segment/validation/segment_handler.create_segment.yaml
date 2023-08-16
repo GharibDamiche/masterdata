@@ -1,0 +1,11 @@
+# contract/segment/segment.proto message CreateSegmentRequest
+# segment:
+#     code: null
+#     id: null
+#     name: null
+#     position: null
+#     values:
+#         children: {}
+#         id: null
+#         name: null
+#         value: null
