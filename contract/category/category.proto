@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package contract;
+
+import "core/db/timestamp.proto";
+import "core/db/arangodb/filter.proto";
+
+option go_package = "github.com/tmds-io/masterdata/contract/data_definition;data_definition";
+
+
+// Category Service for CRUD operations
+service CategoryHandler {
+  rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse);
+  rpc ReadCategory(ReadCategoryRequest) returns (ReadCategoryResponse);
+  rpc UpdateCategory(UpdateCategoryRequest) returns (UpdateCategoryResponse);
+  rpc DeleteCategory(DeleteCategoryRequest) returns (DeleteCategoryResponse);
+  rpc SearchCategories(SearchCategoriesRequest) returns (SearchCategoriesResponse);
+  rpc AddChildCategoryValue(AddChildCategoryValueRequest) returns (AddChildCategoryValueResponse);
+}
+
+message Category {
+  string id = 1;
+  string name = 2; // Human-readable name
+  string code = 3; // Unique code for API reference
+  int32 position = 4; // Position in the list
+  repeated CategoryValue values = 5; // List of valid values
+}
+
+message CategoryValue {
+  string id = 1;
+  string name = 2; // Human-readable name of the category value
+  string key = 3;
+  repeated CategoryValue children = 4;
+}
+
+message CreateCategoryRequest {
+  Category category = 1;
+}
+
+message CreateCategoryResponse {
+  string id = 1;
+}
+
+message ReadCategoryRequest {
+  string id = 1;
+}
+
+message ReadCategoryResponse {
+  Category category = 1;
+}
+
+message UpdateCategoryRequest {
+  Category category = 1;
+}
+
+message UpdateCategoryResponse {
+  Category category = 1;
+}
+
+message DeleteCategoryRequest {
+  string id = 1;
+}
+
+message DeleteCategoryResponse {
+  string id = 1;
+}
+
+message SearchCategoriesRequest {
+  arangodb.Filters filters = 1;
+}
+
+message SearchCategoriesResponse {
+  repeated Category categories = 1;
+}
+
+message AddChildCategoryValueRequest {
+  string parent_category_value_id = 1; // ID of the parent CategoryValue to which the child will be added
+  CategoryValue category_value = 2; // Child CategoryValue to be added
+}
+
+message AddChildCategoryValueResponse {
+  string id = 1; // ID of the added child CategoryValue
+}
