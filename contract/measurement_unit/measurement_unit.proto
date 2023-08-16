@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package contract;
+
+import "core/db/timestamp.proto";
+
+option go_package = "github.com/tmds-io/masterdata/contract/measurement_unit;measurement_unit";
+
+message MeasurementUnit {
+  string id = 1; // Unique identifier for the MeasurementUnit
+  string key = 2; // Unique Key code
+  string name = 3; // Name of the measurement unit
+  string type = 4; // Type of the measurement unit (e.g. length, weight, ...)
+  float base_factor_real = 5; // Real part of the Base factor
+  float base_factor_imaginary = 6; // Imaginary part of the Base factor
+  db.Timestamp updated_at = 7; // Date of the last update
+}
+
+// MeasurementUnit Service for CRUD operations
+service MeasurementUnitHandler {
+  rpc CreateMeasurementUnit(CreateMeasurementUnitRequest) returns (CreateMeasurementUnitResponse);
+  rpc ReadMeasurementUnit(ReadMeasurementUnitRequest) returns (ReadMeasurementUnitResponse);
+  rpc UpdateMeasurementUnit(UpdateMeasurementUnitRequest) returns (UpdateMeasurementUnitResponse);
+  rpc DeleteMeasurementUnit(DeleteMeasurementUnitRequest) returns (DeleteMeasurementUnitResponse);
+  rpc SearchMeasurementUnits(SearchMeasurementUnitsRequest) returns (SearchMeasurementUnitsResponse);
+}
+
+message CreateMeasurementUnitRequest {
+  MeasurementUnit measurement_unit = 1;
+}
+
+message CreateMeasurementUnitResponse {
+  string id = 1;
+}
+
+message ReadMeasurementUnitRequest {
+  string id = 1;
+}
+
+message ReadMeasurementUnitResponse {
+  MeasurementUnit measurement_unit = 1;
+}
+
+message UpdateMeasurementUnitRequest {
+  MeasurementUnit measurement_unit = 1;
+}
+
+message UpdateMeasurementUnitResponse {
+  MeasurementUnit measurement_unit = 1;
+}
+
+message DeleteMeasurementUnitRequest {
+  string id = 1;
+}
+
+message DeleteMeasurementUnitResponse {
+  string id = 1;
+}
+
+message SearchMeasurementUnitsRequest {
+  arangodb.Filters filters = 1;
+}
+
+message SearchMeasurementUnitsResponse {
+  repeated MeasurementUnit measurement_units = 1;
+}
