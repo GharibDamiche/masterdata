@@ -4,7 +4,6 @@ package contract;
 
 import "core/db/timestamp.proto";
 import "core/db/arangodb/filter.proto";
-import "contract/data_value/data_value.proto";
 
 option go_package = "github.com/tmds-io/masterdata/contract/data_definition;data_definition";
 

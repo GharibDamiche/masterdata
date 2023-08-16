@@ -1,0 +1,11 @@
+# contract/category/category.proto message UpdateCategoryRequest
+# category:
+#     code: null
+#     id: null
+#     name: null
+#     position: null
+#     values:
+#         children: {}
+#         id: null
+#         key: null
+#         name: null

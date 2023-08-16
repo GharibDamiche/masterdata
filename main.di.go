@@ -7,7 +7,7 @@ import (
 	import_1 "github.com/tmds-io/masterdata/service/model/data_definition"
 	import_2 "github.com/tmds-io/masterdata/service/model/data_value"
 	import_3 "github.com/tmds-io/masterdata/service/model/segment"
-	import_4 "github.com/tmds-io/masterdata/service/model/unit"
+	import_4 "github.com/tmds-io/masterdata/service/model/measurement_unit"
 	import_5 "github.com/tmds-io/masterdata/service/processor"
 	_ "gitlab.com/tmds-io/core-model/hyperion/contract.git/v2/services"
 	"gitlab.com/tmds-io/core-model/hyperion/kore.git/v2/core/container"

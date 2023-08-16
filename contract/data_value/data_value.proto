@@ -2,11 +2,79 @@ syntax = "proto3";
 
 package contract;
 
+import "core/db/timestamp.proto";
+import "contract/data_definition/data_definition.proto";
+
 option go_package = "github.com/tmds-io/masterdata/contract/data_value;data_value";
 
-// DataValue represents a single data value with an ID, Key, and Expression.
+enum DataValueStatus {
+  CREATED = 0;
+  CONFIGURED = 1;
+}
+
 message DataValue {
-  int64 id = 1;        // Unique identifier for the DataValue
-  string key = 2;      // Key associated with the DataValue
-  string expression = 3; // Mathematical expression associated with the DataValue
+  string id = 1; // Unique identifier for the DataValue
+  string key = 2; // Unique Key code
+  string expression = 3; // Expression of the data value
+  string measurement_unit_id = 5; // UnitId of the data-value
+  DataType type = 6; // Type of the data-value
+  db.Timestamp from = 7; // Date from which the data value is valid
+  db.Timestamp till = 8; // Date till which the data value is valid
+  db.Timestamp updated_at = 9; // Date of the last update
+  string governance_id = 10; // GovernanceId of the data-value
+  repeated string segment_ids = 11; // All Segments mapped with their value ids of the data-value
+  DataValueStatus status = 12; // Status of the DataValue (either CREATED or CONFIGURED)
+}
+
+service DataValueHandler {
+  rpc GenerateDataValueVariations (GenerateDataValueVariationsRequest) returns (GenerateDataValueVariationsResponse) {}
+
+  rpc ConfigureDataValue(ConfigureDataValueRequest) returns (ConfigureDataValueResponse); // Transition from CREATED to CONFIGURED
+
+  rpc ReadDataValue(ReadDataValueRequest) returns (ReadDataValueResponse);
+
+  rpc UpdateDataValue(UpdateDataValueRequest) returns (UpdateDataValueResponse);
+
+  rpc DeleteDataValue(DeleteDataValueRequest) returns (DeleteDataValueResponse);
+}
+
+message GenerateDataValueVariationsRequest {
+  string data_definition_id = 1;
+  repeated string segment_ids = 2;
+}
+
+message GenerateDataValueVariationsResponse {
+  repeated DataValue data_values = 1;
+}
+
+message ReadDataValueRequest {
+  string id = 1;
+}
+
+message ReadDataValueResponse {
+  DataValue data_value = 1;
+}
+
+message UpdateDataValueRequest {
+  DataValue data_value = 1;
+}
+
+message UpdateDataValueResponse {
+  DataValue data_value = 1;
+}
+
+message DeleteDataValueRequest {
+  string id = 1;
+}
+
+message DeleteDataValueResponse {
+  string id = 1;
+}
+
+message ConfigureDataValueRequest {
+  DataValue data_value = 1; // ID of the DataValue to configure
+}
+
+message ConfigureDataValueResponse {
+  string id = 1; // ID of the configured DataValue
 }

@@ -24,7 +24,6 @@ type SegmentHandlerService interface {
 	UpdateSegment(ctx context.Context, in *UpdateSegmentRequest, opts ...client.CallOption) (*UpdateSegmentResponse, error)
 	DeleteSegment(ctx context.Context, in *DeleteSegmentRequest, opts ...client.CallOption) (*DeleteSegmentResponse, error)
 	ListSegments(ctx context.Context, in *SearchSegmentsRequest, opts ...client.CallOption) (*SearchSegmentsResponse, error)
-	AddSegmentValue(ctx context.Context, in *AddSegmentValueRequest, opts ...client.CallOption) (*AddSegmentValueResponse, error)
 	AddChildSegmentValue(ctx context.Context, in *AddChildSegmentValueRequest, opts ...client.CallOption) (*AddChildSegmentValueResponse, error)
 }
 
@@ -101,16 +100,6 @@ func (c *segmentHandlerService) ListSegments(ctx context.Context, in *SearchSegm
 	return out, nil
 }
 
-func (c *segmentHandlerService) AddSegmentValue(ctx context.Context, in *AddSegmentValueRequest, opts ...client.CallOption) (*AddSegmentValueResponse, error) {
-	req := c.c.NewRequest(c.name, "SegmentHandler.AddSegmentValue", in)
-	out := new(AddSegmentValueResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *segmentHandlerService) AddChildSegmentValue(ctx context.Context, in *AddChildSegmentValueRequest, opts ...client.CallOption) (*AddChildSegmentValueResponse, error) {
 	req := c.c.NewRequest(c.name, "SegmentHandler.AddChildSegmentValue", in)
 	out := new(AddChildSegmentValueResponse)
@@ -130,7 +119,6 @@ type SegmentHandlerHandler interface {
 	UpdateSegment(context.Context, *UpdateSegmentRequest, *UpdateSegmentResponse) error
 	DeleteSegment(context.Context, *DeleteSegmentRequest, *DeleteSegmentResponse) error
 	ListSegments(context.Context, *SearchSegmentsRequest, *SearchSegmentsResponse) error
-	AddSegmentValue(context.Context, *AddSegmentValueRequest, *AddSegmentValueResponse) error
 	AddChildSegmentValue(context.Context, *AddChildSegmentValueRequest, *AddChildSegmentValueResponse) error
 }
 
@@ -141,7 +129,6 @@ func RegisterSegmentHandlerHandler(s server.Server, hdlr SegmentHandlerHandler, 
 		UpdateSegment(ctx context.Context, in *UpdateSegmentRequest, out *UpdateSegmentResponse) error
 		DeleteSegment(ctx context.Context, in *DeleteSegmentRequest, out *DeleteSegmentResponse) error
 		ListSegments(ctx context.Context, in *SearchSegmentsRequest, out *SearchSegmentsResponse) error
-		AddSegmentValue(ctx context.Context, in *AddSegmentValueRequest, out *AddSegmentValueResponse) error
 		AddChildSegmentValue(ctx context.Context, in *AddChildSegmentValueRequest, out *AddChildSegmentValueResponse) error
 	}
 	type SegmentHandler struct {
@@ -220,19 +207,6 @@ func (in *SearchSegmentsRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfSearchSegmentsRequest))
 }
 
-//go:embed validation/segment_handler.add_segment_value.yaml
-var ValidationTplOfAddSegmentValueRequest string
-
-//go:embed mask/segment_handler.add_segment_value.yaml
-var MaskOfAddSegmentValueRequest string
-
-func (in *AddSegmentValueRequest) Validate(ctx context.Context) error {
-	if err := masker.ApplyFromYaml(in, MaskOfAddSegmentValueRequest, true); err != nil {
-		return err
-	}
-	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfAddSegmentValueRequest))
-}
-
 //go:embed validation/segment_handler.add_child_segment_value.yaml
 var ValidationTplOfAddChildSegmentValueRequest string
 
@@ -284,14 +258,6 @@ func (h *segmentHandlerHandler) ListSegments(ctx context.Context, in *SearchSegm
 		return err
 	}
 	return h.SegmentHandlerHandler.ListSegments(ctx, in, out)
-}
-
-func (h *segmentHandlerHandler) AddSegmentValue(ctx context.Context, in *AddSegmentValueRequest, out *AddSegmentValueResponse) error {
-	sanitizer.Sanitize(in)
-	if err := in.Validate(ctx); err != nil {
-		return err
-	}
-	return h.SegmentHandlerHandler.AddSegmentValue(ctx, in, out)
 }
 
 func (h *segmentHandlerHandler) AddChildSegmentValue(ctx context.Context, in *AddChildSegmentValueRequest, out *AddChildSegmentValueResponse) error {

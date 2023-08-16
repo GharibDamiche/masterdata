@@ -1,0 +1,7 @@
+# contract/category/category.proto message AddChildCategoryValueRequest
+# category_value:
+#     children: {}
+#     id: null
+#     key: null
+#     name: null
+# parent_category_value_id: null
