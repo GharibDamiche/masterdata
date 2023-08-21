@@ -1,0 +1,16 @@
+# contract/data_value/data_value.proto message ConfigureDataValueRequest
+# data_value:
+#     expression: null
+#     from:
+#         timestamp: null
+#     governance_id: null
+#     id: null
+#     key: null
+#     measurement_unit_id: null
+#     segment_ids: null
+#     status: null
+#     till:
+#         timestamp: null
+#     type: null
+#     updated_at:
+#         timestamp: null

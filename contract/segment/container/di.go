@@ -3,8 +3,8 @@
 package container
 
 import (
-	segment "gitlab.com/tmds-io/core-model/hyperion/contract.git/v2/services/segment/segment"
-	mock "gitlab.com/tmds-io/core-model/hyperion/contract.git/v2/services/segment/segment/mock"
+	segment "github.com/tmds-io/masterdata/contract/segment"
+	mock "github.com/tmds-io/masterdata/contract/segment/mock"
 	container "gitlab.com/tmds-io/core-model/hyperion/kore.git/v2/core/container"
 )
 

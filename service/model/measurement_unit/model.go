@@ -23,6 +23,6 @@ type MeasurementUnit struct {
 	UpdatedAt *db.Timestamp `json:"updated_at,omitempty"`
 }
 
-func NewUnit(id string) *MeasurementUnit {
+func NewMeasurementUnit(id string) *MeasurementUnit {
 	return &MeasurementUnit{Model: arangodb.Model{Id: id}}
 }

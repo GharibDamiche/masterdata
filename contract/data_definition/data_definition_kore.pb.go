@@ -5,7 +5,7 @@ package data_definition
 import (
 	context "context"
 	_ "embed"
-	constant "gitlab.com/tmds-io/core-model/hyperion/contract.git/v2/contract/constant"
+	constant "github.com/tmds-io/masterdata/contract/constant"
 	masker "gitlab.com/tmds-io/core-model/hyperion/kore.git/v2/core/masker"
 	sanitizer "gitlab.com/tmds-io/core-model/hyperion/kore.git/v2/core/sanitizer"
 	validator "gitlab.com/tmds-io/core-model/hyperion/kore.git/v2/core/validator"

@@ -2,10 +2,9 @@ syntax = "proto3";
 
 package contract;
 
-import "core/db/timestamp.proto";
 import "core/db/arangodb/filter.proto";
 
-option go_package = "github.com/tmds-io/masterdata/contract/data_definition;data_definition";
+option go_package = "github.com/tmds-io/masterdata/contract/category;category";
 
 
 // Category Service for CRUD operations
@@ -71,6 +70,7 @@ message SearchCategoriesRequest {
 
 message SearchCategoriesResponse {
   repeated Category categories = 1;
+  arangodb.PaginationData pagination = 2;
 }
 
 message AddChildCategoryValueRequest {

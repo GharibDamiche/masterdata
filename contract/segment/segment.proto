@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package contract;
 
-import "core/db/timestamp.proto";
 import "core/db/arangodb/filter.proto";
 
 option go_package = "github.com/tmds-io/masterdata/contract/segment;segment";
@@ -69,6 +68,7 @@ message SearchSegmentsRequest {
 
 message SearchSegmentsResponse {
   repeated Segment segments = 1; // List of retrieved Segments
+  arangodb.PaginationData pagination = 2;
 }
 
 message AddChildSegmentValueRequest {

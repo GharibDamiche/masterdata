@@ -5,15 +5,15 @@ import (
 	"gitlab.com/tmds-io/core-model/hyperion/kore.git/v2/core/db/arangodb"
 )
 
-type UnitRepositoryInterface interface {
-	arangodb.RepositoryInterface[*Unit]
+type MeasurementUnitRepositoryInterface interface {
+	arangodb.RepositoryInterface[*MeasurementUnit]
 }
 
-type UnitRepository struct {
-	arangodb.Repository[*Unit]
+type MeasurmentUnitRepository struct {
+	arangodb.Repository[*MeasurementUnit]
 }
 
 // @Service()
-func NewUnitRepository(db driver.Database) (UnitRepositoryInterface, error) {
-	return &UnitRepository{arangodb.NewRepository[*Unit](db, Collection, nil)}, nil
+func NewMeasurementUnitRepository(db driver.Database) (MeasurementUnitRepositoryInterface, error) {
+	return &MeasurmentUnitRepository{arangodb.NewRepository[*MeasurementUnit](db, Collection, nil)}, nil
 }

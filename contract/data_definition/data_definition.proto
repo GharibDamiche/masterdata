@@ -75,4 +75,5 @@ message SearchDataDefinitionRequest {
 // Response containing a list of matching DataDefinitions.
 message SearchDataDefinitionResponse {
   repeated DataDefinition data_definitions = 1; // List of matching DataDefinitions
+  arangodb.PaginationData pagination = 2;
 }

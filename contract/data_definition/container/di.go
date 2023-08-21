@@ -3,8 +3,8 @@
 package container
 
 import (
-	data_definition "gitlab.com/tmds-io/core-model/hyperion/contract.git/v2/services/data_definition/data_definition"
-	mock "gitlab.com/tmds-io/core-model/hyperion/contract.git/v2/services/data_definition/data_definition/mock"
+	data_definition "github.com/tmds-io/masterdata/contract/data_definition"
+	mock "github.com/tmds-io/masterdata/contract/data_definition/mock"
 	container "gitlab.com/tmds-io/core-model/hyperion/kore.git/v2/core/container"
 )
 

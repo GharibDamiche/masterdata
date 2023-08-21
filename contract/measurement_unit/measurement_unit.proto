@@ -3,6 +3,8 @@ syntax = "proto3";
 package contract;
 
 import "core/db/timestamp.proto";
+import "core/db/arangodb/filter.proto";
+
 
 option go_package = "github.com/tmds-io/masterdata/contract/measurement_unit;measurement_unit";
 
@@ -63,4 +65,5 @@ message SearchMeasurementUnitsRequest {
 
 message SearchMeasurementUnitsResponse {
   repeated MeasurementUnit measurement_units = 1;
+  arangodb.PaginationData pagination = 2;
 }
