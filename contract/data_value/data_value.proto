@@ -30,15 +30,15 @@ message DataValue {
 service DataValueHandler {
   rpc GenerateDataValueVariations (GenerateDataValueVariationsRequest) returns (GenerateDataValueVariationsResponse) {}
 
-  rpc ConfigureDataValue(ConfigureDataValueRequest) returns (ConfigureDataValueResponse); // Transition from CREATED to CONFIGURED
+  rpc Configure(ConfigureDataValueRequest) returns (ConfigureDataValueResponse); // Transition from CREATED to CONFIGURED
 
-  rpc ReadDataValue(ReadDataValueRequest) returns (ReadDataValueResponse);
+  rpc Read(ReadDataValueRequest) returns (ReadDataValueResponse);
 
-  rpc SearchDataValue(SearchDataValueRequest) returns (SearchDataValueResponse);
+  rpc Search(SearchDataValueRequest) returns (SearchDataValueResponse);
 
-  rpc UpdateDataValue(UpdateDataValueRequest) returns (UpdateDataValueResponse);
+  rpc Update(UpdateDataValueRequest) returns (UpdateDataValueResponse);
 
-  rpc DeleteDataValue(DeleteDataValueRequest) returns (DeleteDataValueResponse);
+  rpc Delete(DeleteDataValueRequest) returns (DeleteDataValueResponse);
 }
 
 message GenerateDataValueVariationsRequest {
@@ -63,7 +63,7 @@ message UpdateDataValueRequest {
 }
 
 message UpdateDataValueResponse {
-  DataValue data_value = 1;
+  string id = 1;
 }
 
 message DeleteDataValueRequest {

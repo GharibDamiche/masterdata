@@ -22,11 +22,11 @@ message SegmentValue {
 }
 
 service SegmentHandler {
-  rpc CreateSegment (CreateSegmentRequest) returns (CreateSegmentResponse) {}
-  rpc ReadSegment (ReadSegmentRequest) returns (ReadSegmentResponse) {}
-  rpc UpdateSegment (UpdateSegmentRequest) returns (UpdateSegmentResponse) {}
-  rpc DeleteSegment (DeleteSegmentRequest) returns (DeleteSegmentResponse) {}
-  rpc ListSegments (SearchSegmentsRequest) returns (SearchSegmentsResponse) {}
+  rpc Create (CreateSegmentRequest) returns (CreateSegmentResponse) {}
+  rpc Read (ReadSegmentRequest) returns (ReadSegmentResponse) {}
+  rpc Update (UpdateSegmentRequest) returns (UpdateSegmentResponse) {}
+  rpc Delete (DeleteSegmentRequest) returns (DeleteSegmentResponse) {}
+  rpc Search (SearchSegmentsRequest) returns (SearchSegmentsResponse) {}
   rpc AddChildSegmentValue (AddChildSegmentValueRequest) returns (AddChildSegmentValueResponse) {}
 }
 

@@ -1,0 +1,10 @@
+# contract/measurement_unit/measurement_unit.proto message UpdateMeasurementUnitRequest
+# measurement_unit:
+#     base_factor_imaginary: null
+#     base_factor_real: null
+#     id: null
+#     key: null
+#     name: null
+#     type: null
+#     updated_at:
+#         timestamp: null

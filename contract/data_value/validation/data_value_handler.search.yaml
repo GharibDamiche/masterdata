@@ -1,0 +1,19 @@
+# contract/data_value/data_value.proto message SearchDataValueRequest
+# filters:
+#     filters:
+#         case_insensitive: null
+#         comparison: null
+#         group:
+#             filters: {}
+#         is_group: null
+#         key: null
+#         logic: null
+#         value: null
+#     limit:
+#         count: null
+#         offset: null
+#         page_number: null
+#     show_deleted_documents: null
+#     sort:
+#         keys: null
+#         mode: null

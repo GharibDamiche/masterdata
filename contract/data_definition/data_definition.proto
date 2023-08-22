@@ -9,9 +9,11 @@ option go_package = "github.com/tmds-io/masterdata/contract/data_definition;data
 
 // DataDefinition contains a collection of DataValues.
 service DataDefinitionHandler {
+  rpc Create (CreateDataDefinitionRequest) returns (CreateDataDefinitionResponse) {}
+
   rpc Read (ReadDataDefinitionRequest) returns (ReadDataDefinitionResponse) {}
 
-  rpc Save (SaveDataDefinitionRequest) returns (SaveDataDefinitionResponse) {}
+  rpc Update (UpdateDataDefinitionRequest) returns (UpdateDataDefinitionResponse) {}
 
   rpc Delete (DeleteDataDefinitionRequest) returns (DeleteDataDefinitionResponse) {}
 
@@ -39,7 +41,7 @@ message DataDefinition {
 
 // Request to read a DataDefinition by ID.
 message ReadDataDefinitionRequest {
-  string data_definition_id = 1; // ID of the DataDefinition to read
+  string id = 1; // ID of the DataDefinition to read
 }
 
 // Response containing a DataDefinition.
@@ -48,13 +50,23 @@ message ReadDataDefinitionResponse {
 }
 
 // Request to save a DataDefinition.
-message SaveDataDefinitionRequest {
+message CreateDataDefinitionRequest {
   DataDefinition data_definition = 1; // The DataDefinition to save
 }
 
 // Response indicating the status of the save operation.
-message SaveDataDefinitionResponse {
+message CreateDataDefinitionResponse {
   string id = 1; // ID of the DataDefinition created
+}
+
+// Request to save a DataDefinition.
+message UpdateDataDefinitionRequest {
+  DataDefinition data_definition = 1; // The DataDefinition to save
+}
+
+// Response indicating the status of the save operation.
+message UpdateDataDefinitionResponse {
+  string id = 1; // ID of the DataDefinition Updated
 }
 
 // Request to delete a DataDefinition by ID.

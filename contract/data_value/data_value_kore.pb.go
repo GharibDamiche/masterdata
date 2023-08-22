@@ -20,11 +20,11 @@ const DataValueHandlerRegistryServiceName = constant.RegistryServiceName + ".dat
 
 type DataValueHandlerService interface {
 	GenerateDataValueVariations(ctx context.Context, in *GenerateDataValueVariationsRequest, opts ...client.CallOption) (*GenerateDataValueVariationsResponse, error)
-	ConfigureDataValue(ctx context.Context, in *ConfigureDataValueRequest, opts ...client.CallOption) (*ConfigureDataValueResponse, error)
-	ReadDataValue(ctx context.Context, in *ReadDataValueRequest, opts ...client.CallOption) (*ReadDataValueResponse, error)
-	SearchDataValue(ctx context.Context, in *SearchDataValueRequest, opts ...client.CallOption) (*SearchDataValueResponse, error)
-	UpdateDataValue(ctx context.Context, in *UpdateDataValueRequest, opts ...client.CallOption) (*UpdateDataValueResponse, error)
-	DeleteDataValue(ctx context.Context, in *DeleteDataValueRequest, opts ...client.CallOption) (*DeleteDataValueResponse, error)
+	Configure(ctx context.Context, in *ConfigureDataValueRequest, opts ...client.CallOption) (*ConfigureDataValueResponse, error)
+	Read(ctx context.Context, in *ReadDataValueRequest, opts ...client.CallOption) (*ReadDataValueResponse, error)
+	Search(ctx context.Context, in *SearchDataValueRequest, opts ...client.CallOption) (*SearchDataValueResponse, error)
+	Update(ctx context.Context, in *UpdateDataValueRequest, opts ...client.CallOption) (*UpdateDataValueResponse, error)
+	Delete(ctx context.Context, in *DeleteDataValueRequest, opts ...client.CallOption) (*DeleteDataValueResponse, error)
 }
 
 type dataValueHandlerService struct {
@@ -60,8 +60,8 @@ func (c *dataValueHandlerService) GenerateDataValueVariations(ctx context.Contex
 	return out, nil
 }
 
-func (c *dataValueHandlerService) ConfigureDataValue(ctx context.Context, in *ConfigureDataValueRequest, opts ...client.CallOption) (*ConfigureDataValueResponse, error) {
-	req := c.c.NewRequest(c.name, "DataValueHandler.ConfigureDataValue", in)
+func (c *dataValueHandlerService) Configure(ctx context.Context, in *ConfigureDataValueRequest, opts ...client.CallOption) (*ConfigureDataValueResponse, error) {
+	req := c.c.NewRequest(c.name, "DataValueHandler.Configure", in)
 	out := new(ConfigureDataValueResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -70,8 +70,8 @@ func (c *dataValueHandlerService) ConfigureDataValue(ctx context.Context, in *Co
 	return out, nil
 }
 
-func (c *dataValueHandlerService) ReadDataValue(ctx context.Context, in *ReadDataValueRequest, opts ...client.CallOption) (*ReadDataValueResponse, error) {
-	req := c.c.NewRequest(c.name, "DataValueHandler.ReadDataValue", in)
+func (c *dataValueHandlerService) Read(ctx context.Context, in *ReadDataValueRequest, opts ...client.CallOption) (*ReadDataValueResponse, error) {
+	req := c.c.NewRequest(c.name, "DataValueHandler.Read", in)
 	out := new(ReadDataValueResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -80,8 +80,8 @@ func (c *dataValueHandlerService) ReadDataValue(ctx context.Context, in *ReadDat
 	return out, nil
 }
 
-func (c *dataValueHandlerService) SearchDataValue(ctx context.Context, in *SearchDataValueRequest, opts ...client.CallOption) (*SearchDataValueResponse, error) {
-	req := c.c.NewRequest(c.name, "DataValueHandler.SearchDataValue", in)
+func (c *dataValueHandlerService) Search(ctx context.Context, in *SearchDataValueRequest, opts ...client.CallOption) (*SearchDataValueResponse, error) {
+	req := c.c.NewRequest(c.name, "DataValueHandler.Search", in)
 	out := new(SearchDataValueResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -90,8 +90,8 @@ func (c *dataValueHandlerService) SearchDataValue(ctx context.Context, in *Searc
 	return out, nil
 }
 
-func (c *dataValueHandlerService) UpdateDataValue(ctx context.Context, in *UpdateDataValueRequest, opts ...client.CallOption) (*UpdateDataValueResponse, error) {
-	req := c.c.NewRequest(c.name, "DataValueHandler.UpdateDataValue", in)
+func (c *dataValueHandlerService) Update(ctx context.Context, in *UpdateDataValueRequest, opts ...client.CallOption) (*UpdateDataValueResponse, error) {
+	req := c.c.NewRequest(c.name, "DataValueHandler.Update", in)
 	out := new(UpdateDataValueResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -100,8 +100,8 @@ func (c *dataValueHandlerService) UpdateDataValue(ctx context.Context, in *Updat
 	return out, nil
 }
 
-func (c *dataValueHandlerService) DeleteDataValue(ctx context.Context, in *DeleteDataValueRequest, opts ...client.CallOption) (*DeleteDataValueResponse, error) {
-	req := c.c.NewRequest(c.name, "DataValueHandler.DeleteDataValue", in)
+func (c *dataValueHandlerService) Delete(ctx context.Context, in *DeleteDataValueRequest, opts ...client.CallOption) (*DeleteDataValueResponse, error) {
+	req := c.c.NewRequest(c.name, "DataValueHandler.Delete", in)
 	out := new(DeleteDataValueResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -115,21 +115,21 @@ func (c *dataValueHandlerService) DeleteDataValue(ctx context.Context, in *Delet
 // DataValueHandlerHandler is the server API for DataValueHandler service.
 type DataValueHandlerHandler interface {
 	GenerateDataValueVariations(context.Context, *GenerateDataValueVariationsRequest, *GenerateDataValueVariationsResponse) error
-	ConfigureDataValue(context.Context, *ConfigureDataValueRequest, *ConfigureDataValueResponse) error
-	ReadDataValue(context.Context, *ReadDataValueRequest, *ReadDataValueResponse) error
-	SearchDataValue(context.Context, *SearchDataValueRequest, *SearchDataValueResponse) error
-	UpdateDataValue(context.Context, *UpdateDataValueRequest, *UpdateDataValueResponse) error
-	DeleteDataValue(context.Context, *DeleteDataValueRequest, *DeleteDataValueResponse) error
+	Configure(context.Context, *ConfigureDataValueRequest, *ConfigureDataValueResponse) error
+	Read(context.Context, *ReadDataValueRequest, *ReadDataValueResponse) error
+	Search(context.Context, *SearchDataValueRequest, *SearchDataValueResponse) error
+	Update(context.Context, *UpdateDataValueRequest, *UpdateDataValueResponse) error
+	Delete(context.Context, *DeleteDataValueRequest, *DeleteDataValueResponse) error
 }
 
 func RegisterDataValueHandlerHandler(s server.Server, hdlr DataValueHandlerHandler, opts ...server.HandlerOption) error {
 	type dataValueHandler interface {
 		GenerateDataValueVariations(ctx context.Context, in *GenerateDataValueVariationsRequest, out *GenerateDataValueVariationsResponse) error
-		ConfigureDataValue(ctx context.Context, in *ConfigureDataValueRequest, out *ConfigureDataValueResponse) error
-		ReadDataValue(ctx context.Context, in *ReadDataValueRequest, out *ReadDataValueResponse) error
-		SearchDataValue(ctx context.Context, in *SearchDataValueRequest, out *SearchDataValueResponse) error
-		UpdateDataValue(ctx context.Context, in *UpdateDataValueRequest, out *UpdateDataValueResponse) error
-		DeleteDataValue(ctx context.Context, in *DeleteDataValueRequest, out *DeleteDataValueResponse) error
+		Configure(ctx context.Context, in *ConfigureDataValueRequest, out *ConfigureDataValueResponse) error
+		Read(ctx context.Context, in *ReadDataValueRequest, out *ReadDataValueResponse) error
+		Search(ctx context.Context, in *SearchDataValueRequest, out *SearchDataValueResponse) error
+		Update(ctx context.Context, in *UpdateDataValueRequest, out *UpdateDataValueResponse) error
+		Delete(ctx context.Context, in *DeleteDataValueRequest, out *DeleteDataValueResponse) error
 	}
 	type DataValueHandler struct {
 		dataValueHandler
@@ -155,10 +155,10 @@ func (in *GenerateDataValueVariationsRequest) Validate(ctx context.Context) erro
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfGenerateDataValueVariationsRequest))
 }
 
-//go:embed validation/data_value_handler.configure_data_value.yaml
+//go:embed validation/data_value_handler.configure.yaml
 var ValidationTplOfConfigureDataValueRequest string
 
-//go:embed mask/data_value_handler.configure_data_value.yaml
+//go:embed mask/data_value_handler.configure.yaml
 var MaskOfConfigureDataValueRequest string
 
 func (in *ConfigureDataValueRequest) Validate(ctx context.Context) error {
@@ -168,10 +168,10 @@ func (in *ConfigureDataValueRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfConfigureDataValueRequest))
 }
 
-//go:embed validation/data_value_handler.read_data_value.yaml
+//go:embed validation/data_value_handler.read.yaml
 var ValidationTplOfReadDataValueRequest string
 
-//go:embed mask/data_value_handler.read_data_value.yaml
+//go:embed mask/data_value_handler.read.yaml
 var MaskOfReadDataValueRequest string
 
 func (in *ReadDataValueRequest) Validate(ctx context.Context) error {
@@ -181,10 +181,10 @@ func (in *ReadDataValueRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfReadDataValueRequest))
 }
 
-//go:embed validation/data_value_handler.search_data_value.yaml
+//go:embed validation/data_value_handler.search.yaml
 var ValidationTplOfSearchDataValueRequest string
 
-//go:embed mask/data_value_handler.search_data_value.yaml
+//go:embed mask/data_value_handler.search.yaml
 var MaskOfSearchDataValueRequest string
 
 func (in *SearchDataValueRequest) Validate(ctx context.Context) error {
@@ -194,10 +194,10 @@ func (in *SearchDataValueRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfSearchDataValueRequest))
 }
 
-//go:embed validation/data_value_handler.update_data_value.yaml
+//go:embed validation/data_value_handler.update.yaml
 var ValidationTplOfUpdateDataValueRequest string
 
-//go:embed mask/data_value_handler.update_data_value.yaml
+//go:embed mask/data_value_handler.update.yaml
 var MaskOfUpdateDataValueRequest string
 
 func (in *UpdateDataValueRequest) Validate(ctx context.Context) error {
@@ -207,10 +207,10 @@ func (in *UpdateDataValueRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfUpdateDataValueRequest))
 }
 
-//go:embed validation/data_value_handler.delete_data_value.yaml
+//go:embed validation/data_value_handler.delete.yaml
 var ValidationTplOfDeleteDataValueRequest string
 
-//go:embed mask/data_value_handler.delete_data_value.yaml
+//go:embed mask/data_value_handler.delete.yaml
 var MaskOfDeleteDataValueRequest string
 
 func (in *DeleteDataValueRequest) Validate(ctx context.Context) error {
@@ -228,42 +228,42 @@ func (h *dataValueHandlerHandler) GenerateDataValueVariations(ctx context.Contex
 	return h.DataValueHandlerHandler.GenerateDataValueVariations(ctx, in, out)
 }
 
-func (h *dataValueHandlerHandler) ConfigureDataValue(ctx context.Context, in *ConfigureDataValueRequest, out *ConfigureDataValueResponse) error {
+func (h *dataValueHandlerHandler) Configure(ctx context.Context, in *ConfigureDataValueRequest, out *ConfigureDataValueResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.DataValueHandlerHandler.ConfigureDataValue(ctx, in, out)
+	return h.DataValueHandlerHandler.Configure(ctx, in, out)
 }
 
-func (h *dataValueHandlerHandler) ReadDataValue(ctx context.Context, in *ReadDataValueRequest, out *ReadDataValueResponse) error {
+func (h *dataValueHandlerHandler) Read(ctx context.Context, in *ReadDataValueRequest, out *ReadDataValueResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.DataValueHandlerHandler.ReadDataValue(ctx, in, out)
+	return h.DataValueHandlerHandler.Read(ctx, in, out)
 }
 
-func (h *dataValueHandlerHandler) SearchDataValue(ctx context.Context, in *SearchDataValueRequest, out *SearchDataValueResponse) error {
+func (h *dataValueHandlerHandler) Search(ctx context.Context, in *SearchDataValueRequest, out *SearchDataValueResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.DataValueHandlerHandler.SearchDataValue(ctx, in, out)
+	return h.DataValueHandlerHandler.Search(ctx, in, out)
 }
 
-func (h *dataValueHandlerHandler) UpdateDataValue(ctx context.Context, in *UpdateDataValueRequest, out *UpdateDataValueResponse) error {
+func (h *dataValueHandlerHandler) Update(ctx context.Context, in *UpdateDataValueRequest, out *UpdateDataValueResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.DataValueHandlerHandler.UpdateDataValue(ctx, in, out)
+	return h.DataValueHandlerHandler.Update(ctx, in, out)
 }
 
-func (h *dataValueHandlerHandler) DeleteDataValue(ctx context.Context, in *DeleteDataValueRequest, out *DeleteDataValueResponse) error {
+func (h *dataValueHandlerHandler) Delete(ctx context.Context, in *DeleteDataValueRequest, out *DeleteDataValueResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.DataValueHandlerHandler.DeleteDataValue(ctx, in, out)
+	return h.DataValueHandlerHandler.Delete(ctx, in, out)
 }

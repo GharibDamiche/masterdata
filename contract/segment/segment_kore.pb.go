@@ -19,11 +19,11 @@ import (
 const SegmentHandlerRegistryServiceName = constant.RegistryServiceName + ".segment_handler"
 
 type SegmentHandlerService interface {
-	CreateSegment(ctx context.Context, in *CreateSegmentRequest, opts ...client.CallOption) (*CreateSegmentResponse, error)
-	ReadSegment(ctx context.Context, in *ReadSegmentRequest, opts ...client.CallOption) (*ReadSegmentResponse, error)
-	UpdateSegment(ctx context.Context, in *UpdateSegmentRequest, opts ...client.CallOption) (*UpdateSegmentResponse, error)
-	DeleteSegment(ctx context.Context, in *DeleteSegmentRequest, opts ...client.CallOption) (*DeleteSegmentResponse, error)
-	ListSegments(ctx context.Context, in *SearchSegmentsRequest, opts ...client.CallOption) (*SearchSegmentsResponse, error)
+	Create(ctx context.Context, in *CreateSegmentRequest, opts ...client.CallOption) (*CreateSegmentResponse, error)
+	Read(ctx context.Context, in *ReadSegmentRequest, opts ...client.CallOption) (*ReadSegmentResponse, error)
+	Update(ctx context.Context, in *UpdateSegmentRequest, opts ...client.CallOption) (*UpdateSegmentResponse, error)
+	Delete(ctx context.Context, in *DeleteSegmentRequest, opts ...client.CallOption) (*DeleteSegmentResponse, error)
+	Search(ctx context.Context, in *SearchSegmentsRequest, opts ...client.CallOption) (*SearchSegmentsResponse, error)
 	AddChildSegmentValue(ctx context.Context, in *AddChildSegmentValueRequest, opts ...client.CallOption) (*AddChildSegmentValueResponse, error)
 }
 
@@ -50,8 +50,8 @@ func NewSegmentHandlerServiceWithDefaultClient() SegmentHandlerService {
 	return NewSegmentHandlerService(constant.RegistryServiceName, client.DefaultClient)
 }
 
-func (c *segmentHandlerService) CreateSegment(ctx context.Context, in *CreateSegmentRequest, opts ...client.CallOption) (*CreateSegmentResponse, error) {
-	req := c.c.NewRequest(c.name, "SegmentHandler.CreateSegment", in)
+func (c *segmentHandlerService) Create(ctx context.Context, in *CreateSegmentRequest, opts ...client.CallOption) (*CreateSegmentResponse, error) {
+	req := c.c.NewRequest(c.name, "SegmentHandler.Create", in)
 	out := new(CreateSegmentResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -60,8 +60,8 @@ func (c *segmentHandlerService) CreateSegment(ctx context.Context, in *CreateSeg
 	return out, nil
 }
 
-func (c *segmentHandlerService) ReadSegment(ctx context.Context, in *ReadSegmentRequest, opts ...client.CallOption) (*ReadSegmentResponse, error) {
-	req := c.c.NewRequest(c.name, "SegmentHandler.ReadSegment", in)
+func (c *segmentHandlerService) Read(ctx context.Context, in *ReadSegmentRequest, opts ...client.CallOption) (*ReadSegmentResponse, error) {
+	req := c.c.NewRequest(c.name, "SegmentHandler.Read", in)
 	out := new(ReadSegmentResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -70,8 +70,8 @@ func (c *segmentHandlerService) ReadSegment(ctx context.Context, in *ReadSegment
 	return out, nil
 }
 
-func (c *segmentHandlerService) UpdateSegment(ctx context.Context, in *UpdateSegmentRequest, opts ...client.CallOption) (*UpdateSegmentResponse, error) {
-	req := c.c.NewRequest(c.name, "SegmentHandler.UpdateSegment", in)
+func (c *segmentHandlerService) Update(ctx context.Context, in *UpdateSegmentRequest, opts ...client.CallOption) (*UpdateSegmentResponse, error) {
+	req := c.c.NewRequest(c.name, "SegmentHandler.Update", in)
 	out := new(UpdateSegmentResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -80,8 +80,8 @@ func (c *segmentHandlerService) UpdateSegment(ctx context.Context, in *UpdateSeg
 	return out, nil
 }
 
-func (c *segmentHandlerService) DeleteSegment(ctx context.Context, in *DeleteSegmentRequest, opts ...client.CallOption) (*DeleteSegmentResponse, error) {
-	req := c.c.NewRequest(c.name, "SegmentHandler.DeleteSegment", in)
+func (c *segmentHandlerService) Delete(ctx context.Context, in *DeleteSegmentRequest, opts ...client.CallOption) (*DeleteSegmentResponse, error) {
+	req := c.c.NewRequest(c.name, "SegmentHandler.Delete", in)
 	out := new(DeleteSegmentResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -90,8 +90,8 @@ func (c *segmentHandlerService) DeleteSegment(ctx context.Context, in *DeleteSeg
 	return out, nil
 }
 
-func (c *segmentHandlerService) ListSegments(ctx context.Context, in *SearchSegmentsRequest, opts ...client.CallOption) (*SearchSegmentsResponse, error) {
-	req := c.c.NewRequest(c.name, "SegmentHandler.ListSegments", in)
+func (c *segmentHandlerService) Search(ctx context.Context, in *SearchSegmentsRequest, opts ...client.CallOption) (*SearchSegmentsResponse, error) {
+	req := c.c.NewRequest(c.name, "SegmentHandler.Search", in)
 	out := new(SearchSegmentsResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -114,21 +114,21 @@ func (c *segmentHandlerService) AddChildSegmentValue(ctx context.Context, in *Ad
 
 // SegmentHandlerHandler is the server API for SegmentHandler service.
 type SegmentHandlerHandler interface {
-	CreateSegment(context.Context, *CreateSegmentRequest, *CreateSegmentResponse) error
-	ReadSegment(context.Context, *ReadSegmentRequest, *ReadSegmentResponse) error
-	UpdateSegment(context.Context, *UpdateSegmentRequest, *UpdateSegmentResponse) error
-	DeleteSegment(context.Context, *DeleteSegmentRequest, *DeleteSegmentResponse) error
-	ListSegments(context.Context, *SearchSegmentsRequest, *SearchSegmentsResponse) error
+	Create(context.Context, *CreateSegmentRequest, *CreateSegmentResponse) error
+	Read(context.Context, *ReadSegmentRequest, *ReadSegmentResponse) error
+	Update(context.Context, *UpdateSegmentRequest, *UpdateSegmentResponse) error
+	Delete(context.Context, *DeleteSegmentRequest, *DeleteSegmentResponse) error
+	Search(context.Context, *SearchSegmentsRequest, *SearchSegmentsResponse) error
 	AddChildSegmentValue(context.Context, *AddChildSegmentValueRequest, *AddChildSegmentValueResponse) error
 }
 
 func RegisterSegmentHandlerHandler(s server.Server, hdlr SegmentHandlerHandler, opts ...server.HandlerOption) error {
 	type segmentHandler interface {
-		CreateSegment(ctx context.Context, in *CreateSegmentRequest, out *CreateSegmentResponse) error
-		ReadSegment(ctx context.Context, in *ReadSegmentRequest, out *ReadSegmentResponse) error
-		UpdateSegment(ctx context.Context, in *UpdateSegmentRequest, out *UpdateSegmentResponse) error
-		DeleteSegment(ctx context.Context, in *DeleteSegmentRequest, out *DeleteSegmentResponse) error
-		ListSegments(ctx context.Context, in *SearchSegmentsRequest, out *SearchSegmentsResponse) error
+		Create(ctx context.Context, in *CreateSegmentRequest, out *CreateSegmentResponse) error
+		Read(ctx context.Context, in *ReadSegmentRequest, out *ReadSegmentResponse) error
+		Update(ctx context.Context, in *UpdateSegmentRequest, out *UpdateSegmentResponse) error
+		Delete(ctx context.Context, in *DeleteSegmentRequest, out *DeleteSegmentResponse) error
+		Search(ctx context.Context, in *SearchSegmentsRequest, out *SearchSegmentsResponse) error
 		AddChildSegmentValue(ctx context.Context, in *AddChildSegmentValueRequest, out *AddChildSegmentValueResponse) error
 	}
 	type SegmentHandler struct {
@@ -142,10 +142,10 @@ type segmentHandlerHandler struct {
 	SegmentHandlerHandler
 }
 
-//go:embed validation/segment_handler.create_segment.yaml
+//go:embed validation/segment_handler.create.yaml
 var ValidationTplOfCreateSegmentRequest string
 
-//go:embed mask/segment_handler.create_segment.yaml
+//go:embed mask/segment_handler.create.yaml
 var MaskOfCreateSegmentRequest string
 
 func (in *CreateSegmentRequest) Validate(ctx context.Context) error {
@@ -155,10 +155,10 @@ func (in *CreateSegmentRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfCreateSegmentRequest))
 }
 
-//go:embed validation/segment_handler.read_segment.yaml
+//go:embed validation/segment_handler.read.yaml
 var ValidationTplOfReadSegmentRequest string
 
-//go:embed mask/segment_handler.read_segment.yaml
+//go:embed mask/segment_handler.read.yaml
 var MaskOfReadSegmentRequest string
 
 func (in *ReadSegmentRequest) Validate(ctx context.Context) error {
@@ -168,10 +168,10 @@ func (in *ReadSegmentRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfReadSegmentRequest))
 }
 
-//go:embed validation/segment_handler.update_segment.yaml
+//go:embed validation/segment_handler.update.yaml
 var ValidationTplOfUpdateSegmentRequest string
 
-//go:embed mask/segment_handler.update_segment.yaml
+//go:embed mask/segment_handler.update.yaml
 var MaskOfUpdateSegmentRequest string
 
 func (in *UpdateSegmentRequest) Validate(ctx context.Context) error {
@@ -181,10 +181,10 @@ func (in *UpdateSegmentRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfUpdateSegmentRequest))
 }
 
-//go:embed validation/segment_handler.delete_segment.yaml
+//go:embed validation/segment_handler.delete.yaml
 var ValidationTplOfDeleteSegmentRequest string
 
-//go:embed mask/segment_handler.delete_segment.yaml
+//go:embed mask/segment_handler.delete.yaml
 var MaskOfDeleteSegmentRequest string
 
 func (in *DeleteSegmentRequest) Validate(ctx context.Context) error {
@@ -194,10 +194,10 @@ func (in *DeleteSegmentRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfDeleteSegmentRequest))
 }
 
-//go:embed validation/segment_handler.list_segments.yaml
+//go:embed validation/segment_handler.search.yaml
 var ValidationTplOfSearchSegmentsRequest string
 
-//go:embed mask/segment_handler.list_segments.yaml
+//go:embed mask/segment_handler.search.yaml
 var MaskOfSearchSegmentsRequest string
 
 func (in *SearchSegmentsRequest) Validate(ctx context.Context) error {
@@ -220,44 +220,44 @@ func (in *AddChildSegmentValueRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfAddChildSegmentValueRequest))
 }
 
-func (h *segmentHandlerHandler) CreateSegment(ctx context.Context, in *CreateSegmentRequest, out *CreateSegmentResponse) error {
+func (h *segmentHandlerHandler) Create(ctx context.Context, in *CreateSegmentRequest, out *CreateSegmentResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.SegmentHandlerHandler.CreateSegment(ctx, in, out)
+	return h.SegmentHandlerHandler.Create(ctx, in, out)
 }
 
-func (h *segmentHandlerHandler) ReadSegment(ctx context.Context, in *ReadSegmentRequest, out *ReadSegmentResponse) error {
+func (h *segmentHandlerHandler) Read(ctx context.Context, in *ReadSegmentRequest, out *ReadSegmentResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.SegmentHandlerHandler.ReadSegment(ctx, in, out)
+	return h.SegmentHandlerHandler.Read(ctx, in, out)
 }
 
-func (h *segmentHandlerHandler) UpdateSegment(ctx context.Context, in *UpdateSegmentRequest, out *UpdateSegmentResponse) error {
+func (h *segmentHandlerHandler) Update(ctx context.Context, in *UpdateSegmentRequest, out *UpdateSegmentResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.SegmentHandlerHandler.UpdateSegment(ctx, in, out)
+	return h.SegmentHandlerHandler.Update(ctx, in, out)
 }
 
-func (h *segmentHandlerHandler) DeleteSegment(ctx context.Context, in *DeleteSegmentRequest, out *DeleteSegmentResponse) error {
+func (h *segmentHandlerHandler) Delete(ctx context.Context, in *DeleteSegmentRequest, out *DeleteSegmentResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.SegmentHandlerHandler.DeleteSegment(ctx, in, out)
+	return h.SegmentHandlerHandler.Delete(ctx, in, out)
 }
 
-func (h *segmentHandlerHandler) ListSegments(ctx context.Context, in *SearchSegmentsRequest, out *SearchSegmentsResponse) error {
+func (h *segmentHandlerHandler) Search(ctx context.Context, in *SearchSegmentsRequest, out *SearchSegmentsResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.SegmentHandlerHandler.ListSegments(ctx, in, out)
+	return h.SegmentHandlerHandler.Search(ctx, in, out)
 }
 
 func (h *segmentHandlerHandler) AddChildSegmentValue(ctx context.Context, in *AddChildSegmentValueRequest, out *AddChildSegmentValueResponse) error {

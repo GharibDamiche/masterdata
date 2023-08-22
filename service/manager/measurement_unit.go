@@ -3,8 +3,8 @@ package manager
 import (
 	"context"
 	model "github.com/tmds-io/masterdata/service/model/measurement_unit"
+	"gitlab.com/tmds-io/core-model/hyperion/kore.git/v2/core/db/arangodb"
 	"gitlab.com/tmds-io/core-model/hyperion/kore.git/v2/core/errors"
-	"gitlab.com/tmds-io/core-model/hyperion/kore.git/v2/service/telemetry/logger"
 )
 
 type MeasurementUnitManager struct {
@@ -12,10 +12,7 @@ type MeasurementUnitManager struct {
 }
 
 // @Service()
-func NewMeasurementUnitManager(
-	measurementUnits model.MeasurementUnitRepositoryInterface,
-	// Add other dependencies if needed
-) *MeasurementUnitManager {
+func NewMeasurementUnitManager(measurementUnits model.MeasurementUnitRepositoryInterface) *MeasurementUnitManager {
 	return &MeasurementUnitManager{measurementUnits}
 }
 
@@ -25,7 +22,6 @@ func NewMeasurementUnitManager(
 func (m *MeasurementUnitManager) Create(ctx context.Context, model *model.MeasurementUnit) error {
 	if err := m.measurementUnits.Create(ctx, model); err != nil {
 		err = errors.Wrap(err, 400) // Update the error code accordingly
-		logger.Error(err)
 		return err
 	}
 	return nil
@@ -58,7 +54,11 @@ func (m *MeasurementUnitManager) Delete(ctx context.Context, id string) error {
 }
 
 // Search searches for measurement units.
-func (m *MeasurementUnitManager) Search(ctx context.Context, filters interface{}) ([]*model.MeasurementUnit, error) {
-	// Implement the search logic based on your database and filters
-	return nil, nil
+func (m *MeasurementUnitManager) Search(ctx context.Context, filters *arangodb.Filters) (arangodb.ResultSetInterface[*model.MeasurementUnit], error) {
+	rs, err := m.measurementUnits.Search(ctx, filters)
+	if err != nil {
+		return nil, errors.Wrap(err, 400)
+	}
+
+	return rs, nil
 }

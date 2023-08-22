@@ -19,11 +19,11 @@ import (
 const MeasurementUnitHandlerRegistryServiceName = constant.RegistryServiceName + ".measurement_unit_handler"
 
 type MeasurementUnitHandlerService interface {
-	CreateMeasurementUnit(ctx context.Context, in *CreateMeasurementUnitRequest, opts ...client.CallOption) (*CreateMeasurementUnitResponse, error)
-	ReadMeasurementUnit(ctx context.Context, in *ReadMeasurementUnitRequest, opts ...client.CallOption) (*ReadMeasurementUnitResponse, error)
-	UpdateMeasurementUnit(ctx context.Context, in *UpdateMeasurementUnitRequest, opts ...client.CallOption) (*UpdateMeasurementUnitResponse, error)
-	DeleteMeasurementUnit(ctx context.Context, in *DeleteMeasurementUnitRequest, opts ...client.CallOption) (*DeleteMeasurementUnitResponse, error)
-	SearchMeasurementUnits(ctx context.Context, in *SearchMeasurementUnitsRequest, opts ...client.CallOption) (*SearchMeasurementUnitsResponse, error)
+	Create(ctx context.Context, in *CreateMeasurementUnitRequest, opts ...client.CallOption) (*CreateMeasurementUnitResponse, error)
+	Read(ctx context.Context, in *ReadMeasurementUnitRequest, opts ...client.CallOption) (*ReadMeasurementUnitResponse, error)
+	Update(ctx context.Context, in *UpdateMeasurementUnitRequest, opts ...client.CallOption) (*UpdateMeasurementUnitResponse, error)
+	Delete(ctx context.Context, in *DeleteMeasurementUnitRequest, opts ...client.CallOption) (*DeleteMeasurementUnitResponse, error)
+	Search(ctx context.Context, in *SearchMeasurementUnitsRequest, opts ...client.CallOption) (*SearchMeasurementUnitsResponse, error)
 }
 
 type measurementUnitHandlerService struct {
@@ -49,8 +49,8 @@ func NewMeasurementUnitHandlerServiceWithDefaultClient() MeasurementUnitHandlerS
 	return NewMeasurementUnitHandlerService(constant.RegistryServiceName, client.DefaultClient)
 }
 
-func (c *measurementUnitHandlerService) CreateMeasurementUnit(ctx context.Context, in *CreateMeasurementUnitRequest, opts ...client.CallOption) (*CreateMeasurementUnitResponse, error) {
-	req := c.c.NewRequest(c.name, "MeasurementUnitHandler.CreateMeasurementUnit", in)
+func (c *measurementUnitHandlerService) Create(ctx context.Context, in *CreateMeasurementUnitRequest, opts ...client.CallOption) (*CreateMeasurementUnitResponse, error) {
+	req := c.c.NewRequest(c.name, "MeasurementUnitHandler.Create", in)
 	out := new(CreateMeasurementUnitResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -59,8 +59,8 @@ func (c *measurementUnitHandlerService) CreateMeasurementUnit(ctx context.Contex
 	return out, nil
 }
 
-func (c *measurementUnitHandlerService) ReadMeasurementUnit(ctx context.Context, in *ReadMeasurementUnitRequest, opts ...client.CallOption) (*ReadMeasurementUnitResponse, error) {
-	req := c.c.NewRequest(c.name, "MeasurementUnitHandler.ReadMeasurementUnit", in)
+func (c *measurementUnitHandlerService) Read(ctx context.Context, in *ReadMeasurementUnitRequest, opts ...client.CallOption) (*ReadMeasurementUnitResponse, error) {
+	req := c.c.NewRequest(c.name, "MeasurementUnitHandler.Read", in)
 	out := new(ReadMeasurementUnitResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -69,8 +69,8 @@ func (c *measurementUnitHandlerService) ReadMeasurementUnit(ctx context.Context,
 	return out, nil
 }
 
-func (c *measurementUnitHandlerService) UpdateMeasurementUnit(ctx context.Context, in *UpdateMeasurementUnitRequest, opts ...client.CallOption) (*UpdateMeasurementUnitResponse, error) {
-	req := c.c.NewRequest(c.name, "MeasurementUnitHandler.UpdateMeasurementUnit", in)
+func (c *measurementUnitHandlerService) Update(ctx context.Context, in *UpdateMeasurementUnitRequest, opts ...client.CallOption) (*UpdateMeasurementUnitResponse, error) {
+	req := c.c.NewRequest(c.name, "MeasurementUnitHandler.Update", in)
 	out := new(UpdateMeasurementUnitResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -79,8 +79,8 @@ func (c *measurementUnitHandlerService) UpdateMeasurementUnit(ctx context.Contex
 	return out, nil
 }
 
-func (c *measurementUnitHandlerService) DeleteMeasurementUnit(ctx context.Context, in *DeleteMeasurementUnitRequest, opts ...client.CallOption) (*DeleteMeasurementUnitResponse, error) {
-	req := c.c.NewRequest(c.name, "MeasurementUnitHandler.DeleteMeasurementUnit", in)
+func (c *measurementUnitHandlerService) Delete(ctx context.Context, in *DeleteMeasurementUnitRequest, opts ...client.CallOption) (*DeleteMeasurementUnitResponse, error) {
+	req := c.c.NewRequest(c.name, "MeasurementUnitHandler.Delete", in)
 	out := new(DeleteMeasurementUnitResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -89,8 +89,8 @@ func (c *measurementUnitHandlerService) DeleteMeasurementUnit(ctx context.Contex
 	return out, nil
 }
 
-func (c *measurementUnitHandlerService) SearchMeasurementUnits(ctx context.Context, in *SearchMeasurementUnitsRequest, opts ...client.CallOption) (*SearchMeasurementUnitsResponse, error) {
-	req := c.c.NewRequest(c.name, "MeasurementUnitHandler.SearchMeasurementUnits", in)
+func (c *measurementUnitHandlerService) Search(ctx context.Context, in *SearchMeasurementUnitsRequest, opts ...client.CallOption) (*SearchMeasurementUnitsResponse, error) {
+	req := c.c.NewRequest(c.name, "MeasurementUnitHandler.Search", in)
 	out := new(SearchMeasurementUnitsResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -103,20 +103,20 @@ func (c *measurementUnitHandlerService) SearchMeasurementUnits(ctx context.Conte
 
 // MeasurementUnitHandlerHandler is the server API for MeasurementUnitHandler service.
 type MeasurementUnitHandlerHandler interface {
-	CreateMeasurementUnit(context.Context, *CreateMeasurementUnitRequest, *CreateMeasurementUnitResponse) error
-	ReadMeasurementUnit(context.Context, *ReadMeasurementUnitRequest, *ReadMeasurementUnitResponse) error
-	UpdateMeasurementUnit(context.Context, *UpdateMeasurementUnitRequest, *UpdateMeasurementUnitResponse) error
-	DeleteMeasurementUnit(context.Context, *DeleteMeasurementUnitRequest, *DeleteMeasurementUnitResponse) error
-	SearchMeasurementUnits(context.Context, *SearchMeasurementUnitsRequest, *SearchMeasurementUnitsResponse) error
+	Create(context.Context, *CreateMeasurementUnitRequest, *CreateMeasurementUnitResponse) error
+	Read(context.Context, *ReadMeasurementUnitRequest, *ReadMeasurementUnitResponse) error
+	Update(context.Context, *UpdateMeasurementUnitRequest, *UpdateMeasurementUnitResponse) error
+	Delete(context.Context, *DeleteMeasurementUnitRequest, *DeleteMeasurementUnitResponse) error
+	Search(context.Context, *SearchMeasurementUnitsRequest, *SearchMeasurementUnitsResponse) error
 }
 
 func RegisterMeasurementUnitHandlerHandler(s server.Server, hdlr MeasurementUnitHandlerHandler, opts ...server.HandlerOption) error {
 	type measurementUnitHandler interface {
-		CreateMeasurementUnit(ctx context.Context, in *CreateMeasurementUnitRequest, out *CreateMeasurementUnitResponse) error
-		ReadMeasurementUnit(ctx context.Context, in *ReadMeasurementUnitRequest, out *ReadMeasurementUnitResponse) error
-		UpdateMeasurementUnit(ctx context.Context, in *UpdateMeasurementUnitRequest, out *UpdateMeasurementUnitResponse) error
-		DeleteMeasurementUnit(ctx context.Context, in *DeleteMeasurementUnitRequest, out *DeleteMeasurementUnitResponse) error
-		SearchMeasurementUnits(ctx context.Context, in *SearchMeasurementUnitsRequest, out *SearchMeasurementUnitsResponse) error
+		Create(ctx context.Context, in *CreateMeasurementUnitRequest, out *CreateMeasurementUnitResponse) error
+		Read(ctx context.Context, in *ReadMeasurementUnitRequest, out *ReadMeasurementUnitResponse) error
+		Update(ctx context.Context, in *UpdateMeasurementUnitRequest, out *UpdateMeasurementUnitResponse) error
+		Delete(ctx context.Context, in *DeleteMeasurementUnitRequest, out *DeleteMeasurementUnitResponse) error
+		Search(ctx context.Context, in *SearchMeasurementUnitsRequest, out *SearchMeasurementUnitsResponse) error
 	}
 	type MeasurementUnitHandler struct {
 		measurementUnitHandler
@@ -129,10 +129,10 @@ type measurementUnitHandlerHandler struct {
 	MeasurementUnitHandlerHandler
 }
 
-//go:embed validation/measurement_unit_handler.create_measurement_unit.yaml
+//go:embed validation/measurement_unit_handler.create.yaml
 var ValidationTplOfCreateMeasurementUnitRequest string
 
-//go:embed mask/measurement_unit_handler.create_measurement_unit.yaml
+//go:embed mask/measurement_unit_handler.create.yaml
 var MaskOfCreateMeasurementUnitRequest string
 
 func (in *CreateMeasurementUnitRequest) Validate(ctx context.Context) error {
@@ -142,10 +142,10 @@ func (in *CreateMeasurementUnitRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfCreateMeasurementUnitRequest))
 }
 
-//go:embed validation/measurement_unit_handler.read_measurement_unit.yaml
+//go:embed validation/measurement_unit_handler.read.yaml
 var ValidationTplOfReadMeasurementUnitRequest string
 
-//go:embed mask/measurement_unit_handler.read_measurement_unit.yaml
+//go:embed mask/measurement_unit_handler.read.yaml
 var MaskOfReadMeasurementUnitRequest string
 
 func (in *ReadMeasurementUnitRequest) Validate(ctx context.Context) error {
@@ -155,10 +155,10 @@ func (in *ReadMeasurementUnitRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfReadMeasurementUnitRequest))
 }
 
-//go:embed validation/measurement_unit_handler.update_measurement_unit.yaml
+//go:embed validation/measurement_unit_handler.update.yaml
 var ValidationTplOfUpdateMeasurementUnitRequest string
 
-//go:embed mask/measurement_unit_handler.update_measurement_unit.yaml
+//go:embed mask/measurement_unit_handler.update.yaml
 var MaskOfUpdateMeasurementUnitRequest string
 
 func (in *UpdateMeasurementUnitRequest) Validate(ctx context.Context) error {
@@ -168,10 +168,10 @@ func (in *UpdateMeasurementUnitRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfUpdateMeasurementUnitRequest))
 }
 
-//go:embed validation/measurement_unit_handler.delete_measurement_unit.yaml
+//go:embed validation/measurement_unit_handler.delete.yaml
 var ValidationTplOfDeleteMeasurementUnitRequest string
 
-//go:embed mask/measurement_unit_handler.delete_measurement_unit.yaml
+//go:embed mask/measurement_unit_handler.delete.yaml
 var MaskOfDeleteMeasurementUnitRequest string
 
 func (in *DeleteMeasurementUnitRequest) Validate(ctx context.Context) error {
@@ -181,10 +181,10 @@ func (in *DeleteMeasurementUnitRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfDeleteMeasurementUnitRequest))
 }
 
-//go:embed validation/measurement_unit_handler.search_measurement_units.yaml
+//go:embed validation/measurement_unit_handler.search.yaml
 var ValidationTplOfSearchMeasurementUnitsRequest string
 
-//go:embed mask/measurement_unit_handler.search_measurement_units.yaml
+//go:embed mask/measurement_unit_handler.search.yaml
 var MaskOfSearchMeasurementUnitsRequest string
 
 func (in *SearchMeasurementUnitsRequest) Validate(ctx context.Context) error {
@@ -194,42 +194,42 @@ func (in *SearchMeasurementUnitsRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfSearchMeasurementUnitsRequest))
 }
 
-func (h *measurementUnitHandlerHandler) CreateMeasurementUnit(ctx context.Context, in *CreateMeasurementUnitRequest, out *CreateMeasurementUnitResponse) error {
+func (h *measurementUnitHandlerHandler) Create(ctx context.Context, in *CreateMeasurementUnitRequest, out *CreateMeasurementUnitResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.MeasurementUnitHandlerHandler.CreateMeasurementUnit(ctx, in, out)
+	return h.MeasurementUnitHandlerHandler.Create(ctx, in, out)
 }
 
-func (h *measurementUnitHandlerHandler) ReadMeasurementUnit(ctx context.Context, in *ReadMeasurementUnitRequest, out *ReadMeasurementUnitResponse) error {
+func (h *measurementUnitHandlerHandler) Read(ctx context.Context, in *ReadMeasurementUnitRequest, out *ReadMeasurementUnitResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.MeasurementUnitHandlerHandler.ReadMeasurementUnit(ctx, in, out)
+	return h.MeasurementUnitHandlerHandler.Read(ctx, in, out)
 }
 
-func (h *measurementUnitHandlerHandler) UpdateMeasurementUnit(ctx context.Context, in *UpdateMeasurementUnitRequest, out *UpdateMeasurementUnitResponse) error {
+func (h *measurementUnitHandlerHandler) Update(ctx context.Context, in *UpdateMeasurementUnitRequest, out *UpdateMeasurementUnitResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.MeasurementUnitHandlerHandler.UpdateMeasurementUnit(ctx, in, out)
+	return h.MeasurementUnitHandlerHandler.Update(ctx, in, out)
 }
 
-func (h *measurementUnitHandlerHandler) DeleteMeasurementUnit(ctx context.Context, in *DeleteMeasurementUnitRequest, out *DeleteMeasurementUnitResponse) error {
+func (h *measurementUnitHandlerHandler) Delete(ctx context.Context, in *DeleteMeasurementUnitRequest, out *DeleteMeasurementUnitResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.MeasurementUnitHandlerHandler.DeleteMeasurementUnit(ctx, in, out)
+	return h.MeasurementUnitHandlerHandler.Delete(ctx, in, out)
 }
 
-func (h *measurementUnitHandlerHandler) SearchMeasurementUnits(ctx context.Context, in *SearchMeasurementUnitsRequest, out *SearchMeasurementUnitsResponse) error {
+func (h *measurementUnitHandlerHandler) Search(ctx context.Context, in *SearchMeasurementUnitsRequest, out *SearchMeasurementUnitsResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.MeasurementUnitHandlerHandler.SearchMeasurementUnits(ctx, in, out)
+	return h.MeasurementUnitHandlerHandler.Search(ctx, in, out)
 }

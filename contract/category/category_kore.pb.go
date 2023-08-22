@@ -19,11 +19,11 @@ import (
 const CategoryHandlerRegistryServiceName = constant.RegistryServiceName + ".category_handler"
 
 type CategoryHandlerService interface {
-	CreateCategory(ctx context.Context, in *CreateCategoryRequest, opts ...client.CallOption) (*CreateCategoryResponse, error)
-	ReadCategory(ctx context.Context, in *ReadCategoryRequest, opts ...client.CallOption) (*ReadCategoryResponse, error)
-	UpdateCategory(ctx context.Context, in *UpdateCategoryRequest, opts ...client.CallOption) (*UpdateCategoryResponse, error)
-	DeleteCategory(ctx context.Context, in *DeleteCategoryRequest, opts ...client.CallOption) (*DeleteCategoryResponse, error)
-	SearchCategories(ctx context.Context, in *SearchCategoriesRequest, opts ...client.CallOption) (*SearchCategoriesResponse, error)
+	Create(ctx context.Context, in *CreateCategoryRequest, opts ...client.CallOption) (*CreateCategoryResponse, error)
+	Read(ctx context.Context, in *ReadCategoryRequest, opts ...client.CallOption) (*ReadCategoryResponse, error)
+	Update(ctx context.Context, in *UpdateCategoryRequest, opts ...client.CallOption) (*UpdateCategoryResponse, error)
+	Delete(ctx context.Context, in *DeleteCategoryRequest, opts ...client.CallOption) (*DeleteCategoryResponse, error)
+	Search(ctx context.Context, in *SearchCategoriesRequest, opts ...client.CallOption) (*SearchCategoriesResponse, error)
 	AddChildCategoryValue(ctx context.Context, in *AddChildCategoryValueRequest, opts ...client.CallOption) (*AddChildCategoryValueResponse, error)
 }
 
@@ -50,8 +50,8 @@ func NewCategoryHandlerServiceWithDefaultClient() CategoryHandlerService {
 	return NewCategoryHandlerService(constant.RegistryServiceName, client.DefaultClient)
 }
 
-func (c *categoryHandlerService) CreateCategory(ctx context.Context, in *CreateCategoryRequest, opts ...client.CallOption) (*CreateCategoryResponse, error) {
-	req := c.c.NewRequest(c.name, "CategoryHandler.CreateCategory", in)
+func (c *categoryHandlerService) Create(ctx context.Context, in *CreateCategoryRequest, opts ...client.CallOption) (*CreateCategoryResponse, error) {
+	req := c.c.NewRequest(c.name, "CategoryHandler.Create", in)
 	out := new(CreateCategoryResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -60,8 +60,8 @@ func (c *categoryHandlerService) CreateCategory(ctx context.Context, in *CreateC
 	return out, nil
 }
 
-func (c *categoryHandlerService) ReadCategory(ctx context.Context, in *ReadCategoryRequest, opts ...client.CallOption) (*ReadCategoryResponse, error) {
-	req := c.c.NewRequest(c.name, "CategoryHandler.ReadCategory", in)
+func (c *categoryHandlerService) Read(ctx context.Context, in *ReadCategoryRequest, opts ...client.CallOption) (*ReadCategoryResponse, error) {
+	req := c.c.NewRequest(c.name, "CategoryHandler.Read", in)
 	out := new(ReadCategoryResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -70,8 +70,8 @@ func (c *categoryHandlerService) ReadCategory(ctx context.Context, in *ReadCateg
 	return out, nil
 }
 
-func (c *categoryHandlerService) UpdateCategory(ctx context.Context, in *UpdateCategoryRequest, opts ...client.CallOption) (*UpdateCategoryResponse, error) {
-	req := c.c.NewRequest(c.name, "CategoryHandler.UpdateCategory", in)
+func (c *categoryHandlerService) Update(ctx context.Context, in *UpdateCategoryRequest, opts ...client.CallOption) (*UpdateCategoryResponse, error) {
+	req := c.c.NewRequest(c.name, "CategoryHandler.Update", in)
 	out := new(UpdateCategoryResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -80,8 +80,8 @@ func (c *categoryHandlerService) UpdateCategory(ctx context.Context, in *UpdateC
 	return out, nil
 }
 
-func (c *categoryHandlerService) DeleteCategory(ctx context.Context, in *DeleteCategoryRequest, opts ...client.CallOption) (*DeleteCategoryResponse, error) {
-	req := c.c.NewRequest(c.name, "CategoryHandler.DeleteCategory", in)
+func (c *categoryHandlerService) Delete(ctx context.Context, in *DeleteCategoryRequest, opts ...client.CallOption) (*DeleteCategoryResponse, error) {
+	req := c.c.NewRequest(c.name, "CategoryHandler.Delete", in)
 	out := new(DeleteCategoryResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -90,8 +90,8 @@ func (c *categoryHandlerService) DeleteCategory(ctx context.Context, in *DeleteC
 	return out, nil
 }
 
-func (c *categoryHandlerService) SearchCategories(ctx context.Context, in *SearchCategoriesRequest, opts ...client.CallOption) (*SearchCategoriesResponse, error) {
-	req := c.c.NewRequest(c.name, "CategoryHandler.SearchCategories", in)
+func (c *categoryHandlerService) Search(ctx context.Context, in *SearchCategoriesRequest, opts ...client.CallOption) (*SearchCategoriesResponse, error) {
+	req := c.c.NewRequest(c.name, "CategoryHandler.Search", in)
 	out := new(SearchCategoriesResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -114,21 +114,21 @@ func (c *categoryHandlerService) AddChildCategoryValue(ctx context.Context, in *
 
 // CategoryHandlerHandler is the server API for CategoryHandler service.
 type CategoryHandlerHandler interface {
-	CreateCategory(context.Context, *CreateCategoryRequest, *CreateCategoryResponse) error
-	ReadCategory(context.Context, *ReadCategoryRequest, *ReadCategoryResponse) error
-	UpdateCategory(context.Context, *UpdateCategoryRequest, *UpdateCategoryResponse) error
-	DeleteCategory(context.Context, *DeleteCategoryRequest, *DeleteCategoryResponse) error
-	SearchCategories(context.Context, *SearchCategoriesRequest, *SearchCategoriesResponse) error
+	Create(context.Context, *CreateCategoryRequest, *CreateCategoryResponse) error
+	Read(context.Context, *ReadCategoryRequest, *ReadCategoryResponse) error
+	Update(context.Context, *UpdateCategoryRequest, *UpdateCategoryResponse) error
+	Delete(context.Context, *DeleteCategoryRequest, *DeleteCategoryResponse) error
+	Search(context.Context, *SearchCategoriesRequest, *SearchCategoriesResponse) error
 	AddChildCategoryValue(context.Context, *AddChildCategoryValueRequest, *AddChildCategoryValueResponse) error
 }
 
 func RegisterCategoryHandlerHandler(s server.Server, hdlr CategoryHandlerHandler, opts ...server.HandlerOption) error {
 	type categoryHandler interface {
-		CreateCategory(ctx context.Context, in *CreateCategoryRequest, out *CreateCategoryResponse) error
-		ReadCategory(ctx context.Context, in *ReadCategoryRequest, out *ReadCategoryResponse) error
-		UpdateCategory(ctx context.Context, in *UpdateCategoryRequest, out *UpdateCategoryResponse) error
-		DeleteCategory(ctx context.Context, in *DeleteCategoryRequest, out *DeleteCategoryResponse) error
-		SearchCategories(ctx context.Context, in *SearchCategoriesRequest, out *SearchCategoriesResponse) error
+		Create(ctx context.Context, in *CreateCategoryRequest, out *CreateCategoryResponse) error
+		Read(ctx context.Context, in *ReadCategoryRequest, out *ReadCategoryResponse) error
+		Update(ctx context.Context, in *UpdateCategoryRequest, out *UpdateCategoryResponse) error
+		Delete(ctx context.Context, in *DeleteCategoryRequest, out *DeleteCategoryResponse) error
+		Search(ctx context.Context, in *SearchCategoriesRequest, out *SearchCategoriesResponse) error
 		AddChildCategoryValue(ctx context.Context, in *AddChildCategoryValueRequest, out *AddChildCategoryValueResponse) error
 	}
 	type CategoryHandler struct {
@@ -142,10 +142,10 @@ type categoryHandlerHandler struct {
 	CategoryHandlerHandler
 }
 
-//go:embed validation/category_handler.create_category.yaml
+//go:embed validation/category_handler.create.yaml
 var ValidationTplOfCreateCategoryRequest string
 
-//go:embed mask/category_handler.create_category.yaml
+//go:embed mask/category_handler.create.yaml
 var MaskOfCreateCategoryRequest string
 
 func (in *CreateCategoryRequest) Validate(ctx context.Context) error {
@@ -155,10 +155,10 @@ func (in *CreateCategoryRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfCreateCategoryRequest))
 }
 
-//go:embed validation/category_handler.read_category.yaml
+//go:embed validation/category_handler.read.yaml
 var ValidationTplOfReadCategoryRequest string
 
-//go:embed mask/category_handler.read_category.yaml
+//go:embed mask/category_handler.read.yaml
 var MaskOfReadCategoryRequest string
 
 func (in *ReadCategoryRequest) Validate(ctx context.Context) error {
@@ -168,10 +168,10 @@ func (in *ReadCategoryRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfReadCategoryRequest))
 }
 
-//go:embed validation/category_handler.update_category.yaml
+//go:embed validation/category_handler.update.yaml
 var ValidationTplOfUpdateCategoryRequest string
 
-//go:embed mask/category_handler.update_category.yaml
+//go:embed mask/category_handler.update.yaml
 var MaskOfUpdateCategoryRequest string
 
 func (in *UpdateCategoryRequest) Validate(ctx context.Context) error {
@@ -181,10 +181,10 @@ func (in *UpdateCategoryRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfUpdateCategoryRequest))
 }
 
-//go:embed validation/category_handler.delete_category.yaml
+//go:embed validation/category_handler.delete.yaml
 var ValidationTplOfDeleteCategoryRequest string
 
-//go:embed mask/category_handler.delete_category.yaml
+//go:embed mask/category_handler.delete.yaml
 var MaskOfDeleteCategoryRequest string
 
 func (in *DeleteCategoryRequest) Validate(ctx context.Context) error {
@@ -194,10 +194,10 @@ func (in *DeleteCategoryRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfDeleteCategoryRequest))
 }
 
-//go:embed validation/category_handler.search_categories.yaml
+//go:embed validation/category_handler.search.yaml
 var ValidationTplOfSearchCategoriesRequest string
 
-//go:embed mask/category_handler.search_categories.yaml
+//go:embed mask/category_handler.search.yaml
 var MaskOfSearchCategoriesRequest string
 
 func (in *SearchCategoriesRequest) Validate(ctx context.Context) error {
@@ -220,44 +220,44 @@ func (in *AddChildCategoryValueRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfAddChildCategoryValueRequest))
 }
 
-func (h *categoryHandlerHandler) CreateCategory(ctx context.Context, in *CreateCategoryRequest, out *CreateCategoryResponse) error {
+func (h *categoryHandlerHandler) Create(ctx context.Context, in *CreateCategoryRequest, out *CreateCategoryResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.CategoryHandlerHandler.CreateCategory(ctx, in, out)
+	return h.CategoryHandlerHandler.Create(ctx, in, out)
 }
 
-func (h *categoryHandlerHandler) ReadCategory(ctx context.Context, in *ReadCategoryRequest, out *ReadCategoryResponse) error {
+func (h *categoryHandlerHandler) Read(ctx context.Context, in *ReadCategoryRequest, out *ReadCategoryResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.CategoryHandlerHandler.ReadCategory(ctx, in, out)
+	return h.CategoryHandlerHandler.Read(ctx, in, out)
 }
 
-func (h *categoryHandlerHandler) UpdateCategory(ctx context.Context, in *UpdateCategoryRequest, out *UpdateCategoryResponse) error {
+func (h *categoryHandlerHandler) Update(ctx context.Context, in *UpdateCategoryRequest, out *UpdateCategoryResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.CategoryHandlerHandler.UpdateCategory(ctx, in, out)
+	return h.CategoryHandlerHandler.Update(ctx, in, out)
 }
 
-func (h *categoryHandlerHandler) DeleteCategory(ctx context.Context, in *DeleteCategoryRequest, out *DeleteCategoryResponse) error {
+func (h *categoryHandlerHandler) Delete(ctx context.Context, in *DeleteCategoryRequest, out *DeleteCategoryResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.CategoryHandlerHandler.DeleteCategory(ctx, in, out)
+	return h.CategoryHandlerHandler.Delete(ctx, in, out)
 }
 
-func (h *categoryHandlerHandler) SearchCategories(ctx context.Context, in *SearchCategoriesRequest, out *SearchCategoriesResponse) error {
+func (h *categoryHandlerHandler) Search(ctx context.Context, in *SearchCategoriesRequest, out *SearchCategoriesResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.CategoryHandlerHandler.SearchCategories(ctx, in, out)
+	return h.CategoryHandlerHandler.Search(ctx, in, out)
 }
 
 func (h *categoryHandlerHandler) AddChildCategoryValue(ctx context.Context, in *AddChildCategoryValueRequest, out *AddChildCategoryValueResponse) error {

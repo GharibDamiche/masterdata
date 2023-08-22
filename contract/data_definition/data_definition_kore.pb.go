@@ -19,8 +19,9 @@ import (
 const DataDefinitionHandlerRegistryServiceName = constant.RegistryServiceName + ".data_definition_handler"
 
 type DataDefinitionHandlerService interface {
+	Create(ctx context.Context, in *CreateDataDefinitionRequest, opts ...client.CallOption) (*CreateDataDefinitionResponse, error)
 	Read(ctx context.Context, in *ReadDataDefinitionRequest, opts ...client.CallOption) (*ReadDataDefinitionResponse, error)
-	Save(ctx context.Context, in *SaveDataDefinitionRequest, opts ...client.CallOption) (*SaveDataDefinitionResponse, error)
+	Update(ctx context.Context, in *UpdateDataDefinitionRequest, opts ...client.CallOption) (*UpdateDataDefinitionResponse, error)
 	Delete(ctx context.Context, in *DeleteDataDefinitionRequest, opts ...client.CallOption) (*DeleteDataDefinitionResponse, error)
 	Search(ctx context.Context, in *SearchDataDefinitionRequest, opts ...client.CallOption) (*SearchDataDefinitionResponse, error)
 }
@@ -48,6 +49,16 @@ func NewDataDefinitionHandlerServiceWithDefaultClient() DataDefinitionHandlerSer
 	return NewDataDefinitionHandlerService(constant.RegistryServiceName, client.DefaultClient)
 }
 
+func (c *dataDefinitionHandlerService) Create(ctx context.Context, in *CreateDataDefinitionRequest, opts ...client.CallOption) (*CreateDataDefinitionResponse, error) {
+	req := c.c.NewRequest(c.name, "DataDefinitionHandler.Create", in)
+	out := new(CreateDataDefinitionResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *dataDefinitionHandlerService) Read(ctx context.Context, in *ReadDataDefinitionRequest, opts ...client.CallOption) (*ReadDataDefinitionResponse, error) {
 	req := c.c.NewRequest(c.name, "DataDefinitionHandler.Read", in)
 	out := new(ReadDataDefinitionResponse)
@@ -58,9 +69,9 @@ func (c *dataDefinitionHandlerService) Read(ctx context.Context, in *ReadDataDef
 	return out, nil
 }
 
-func (c *dataDefinitionHandlerService) Save(ctx context.Context, in *SaveDataDefinitionRequest, opts ...client.CallOption) (*SaveDataDefinitionResponse, error) {
-	req := c.c.NewRequest(c.name, "DataDefinitionHandler.Save", in)
-	out := new(SaveDataDefinitionResponse)
+func (c *dataDefinitionHandlerService) Update(ctx context.Context, in *UpdateDataDefinitionRequest, opts ...client.CallOption) (*UpdateDataDefinitionResponse, error) {
+	req := c.c.NewRequest(c.name, "DataDefinitionHandler.Update", in)
+	out := new(UpdateDataDefinitionResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -92,16 +103,18 @@ func (c *dataDefinitionHandlerService) Search(ctx context.Context, in *SearchDat
 
 // DataDefinitionHandlerHandler is the server API for DataDefinitionHandler service.
 type DataDefinitionHandlerHandler interface {
+	Create(context.Context, *CreateDataDefinitionRequest, *CreateDataDefinitionResponse) error
 	Read(context.Context, *ReadDataDefinitionRequest, *ReadDataDefinitionResponse) error
-	Save(context.Context, *SaveDataDefinitionRequest, *SaveDataDefinitionResponse) error
+	Update(context.Context, *UpdateDataDefinitionRequest, *UpdateDataDefinitionResponse) error
 	Delete(context.Context, *DeleteDataDefinitionRequest, *DeleteDataDefinitionResponse) error
 	Search(context.Context, *SearchDataDefinitionRequest, *SearchDataDefinitionResponse) error
 }
 
 func RegisterDataDefinitionHandlerHandler(s server.Server, hdlr DataDefinitionHandlerHandler, opts ...server.HandlerOption) error {
 	type dataDefinitionHandler interface {
+		Create(ctx context.Context, in *CreateDataDefinitionRequest, out *CreateDataDefinitionResponse) error
 		Read(ctx context.Context, in *ReadDataDefinitionRequest, out *ReadDataDefinitionResponse) error
-		Save(ctx context.Context, in *SaveDataDefinitionRequest, out *SaveDataDefinitionResponse) error
+		Update(ctx context.Context, in *UpdateDataDefinitionRequest, out *UpdateDataDefinitionResponse) error
 		Delete(ctx context.Context, in *DeleteDataDefinitionRequest, out *DeleteDataDefinitionResponse) error
 		Search(ctx context.Context, in *SearchDataDefinitionRequest, out *SearchDataDefinitionResponse) error
 	}
@@ -114,6 +127,19 @@ func RegisterDataDefinitionHandlerHandler(s server.Server, hdlr DataDefinitionHa
 
 type dataDefinitionHandlerHandler struct {
 	DataDefinitionHandlerHandler
+}
+
+//go:embed validation/data_definition_handler.create.yaml
+var ValidationTplOfCreateDataDefinitionRequest string
+
+//go:embed mask/data_definition_handler.create.yaml
+var MaskOfCreateDataDefinitionRequest string
+
+func (in *CreateDataDefinitionRequest) Validate(ctx context.Context) error {
+	if err := masker.ApplyFromYaml(in, MaskOfCreateDataDefinitionRequest, true); err != nil {
+		return err
+	}
+	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfCreateDataDefinitionRequest))
 }
 
 //go:embed validation/data_definition_handler.read.yaml
@@ -129,17 +155,17 @@ func (in *ReadDataDefinitionRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfReadDataDefinitionRequest))
 }
 
-//go:embed validation/data_definition_handler.save.yaml
-var ValidationTplOfSaveDataDefinitionRequest string
+//go:embed validation/data_definition_handler.update.yaml
+var ValidationTplOfUpdateDataDefinitionRequest string
 
-//go:embed mask/data_definition_handler.save.yaml
-var MaskOfSaveDataDefinitionRequest string
+//go:embed mask/data_definition_handler.update.yaml
+var MaskOfUpdateDataDefinitionRequest string
 
-func (in *SaveDataDefinitionRequest) Validate(ctx context.Context) error {
-	if err := masker.ApplyFromYaml(in, MaskOfSaveDataDefinitionRequest, true); err != nil {
+func (in *UpdateDataDefinitionRequest) Validate(ctx context.Context) error {
+	if err := masker.ApplyFromYaml(in, MaskOfUpdateDataDefinitionRequest, true); err != nil {
 		return err
 	}
-	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfSaveDataDefinitionRequest))
+	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfUpdateDataDefinitionRequest))
 }
 
 //go:embed validation/data_definition_handler.delete.yaml
@@ -168,6 +194,14 @@ func (in *SearchDataDefinitionRequest) Validate(ctx context.Context) error {
 	return errors.WrapValidation(validator.ValidateSchema(ctx, in, ValidationTplOfSearchDataDefinitionRequest))
 }
 
+func (h *dataDefinitionHandlerHandler) Create(ctx context.Context, in *CreateDataDefinitionRequest, out *CreateDataDefinitionResponse) error {
+	sanitizer.Sanitize(in)
+	if err := in.Validate(ctx); err != nil {
+		return err
+	}
+	return h.DataDefinitionHandlerHandler.Create(ctx, in, out)
+}
+
 func (h *dataDefinitionHandlerHandler) Read(ctx context.Context, in *ReadDataDefinitionRequest, out *ReadDataDefinitionResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
@@ -176,12 +210,12 @@ func (h *dataDefinitionHandlerHandler) Read(ctx context.Context, in *ReadDataDef
 	return h.DataDefinitionHandlerHandler.Read(ctx, in, out)
 }
 
-func (h *dataDefinitionHandlerHandler) Save(ctx context.Context, in *SaveDataDefinitionRequest, out *SaveDataDefinitionResponse) error {
+func (h *dataDefinitionHandlerHandler) Update(ctx context.Context, in *UpdateDataDefinitionRequest, out *UpdateDataDefinitionResponse) error {
 	sanitizer.Sanitize(in)
 	if err := in.Validate(ctx); err != nil {
 		return err
 	}
-	return h.DataDefinitionHandlerHandler.Save(ctx, in, out)
+	return h.DataDefinitionHandlerHandler.Update(ctx, in, out)
 }
 
 func (h *dataDefinitionHandlerHandler) Delete(ctx context.Context, in *DeleteDataDefinitionRequest, out *DeleteDataDefinitionResponse) error {

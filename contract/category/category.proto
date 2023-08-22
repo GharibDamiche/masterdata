@@ -9,12 +9,12 @@ option go_package = "github.com/tmds-io/masterdata/contract/category;category";
 
 // Category Service for CRUD operations
 service CategoryHandler {
-  rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse);
-  rpc ReadCategory(ReadCategoryRequest) returns (ReadCategoryResponse);
-  rpc UpdateCategory(UpdateCategoryRequest) returns (UpdateCategoryResponse);
-  rpc DeleteCategory(DeleteCategoryRequest) returns (DeleteCategoryResponse);
-  rpc SearchCategories(SearchCategoriesRequest) returns (SearchCategoriesResponse);
-  rpc AddChildCategoryValue(AddChildCategoryValueRequest) returns (AddChildCategoryValueResponse);
+  rpc Create (CreateCategoryRequest) returns (CreateCategoryResponse);
+  rpc Read (ReadCategoryRequest) returns (ReadCategoryResponse);
+  rpc Update (UpdateCategoryRequest) returns (UpdateCategoryResponse);
+  rpc Delete (DeleteCategoryRequest) returns (DeleteCategoryResponse);
+  rpc Search (SearchCategoriesRequest) returns (SearchCategoriesResponse);
+  rpc AddChildCategoryValue (AddChildCategoryValueRequest) returns (AddChildCategoryValueResponse);
 }
 
 message Category {
@@ -53,7 +53,7 @@ message UpdateCategoryRequest {
 }
 
 message UpdateCategoryResponse {
-  Category category = 1;
+  string id = 1;
 }
 
 message DeleteCategoryRequest {

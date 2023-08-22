@@ -1,0 +1,14 @@
+# contract/data_definition/data_definition.proto message CreateDataDefinitionRequest
+# data_definition:
+#     category_value_ids: null
+#     default_measurement_unit_id: null
+#     default_segment_ids: null
+#     default_type: null
+#     description: null
+#     id: null
+#     is_default_overloadable: null
+#     key: null
+#     name: null
+#     updated_at:
+#         timestamp: null
+#     visibility: null

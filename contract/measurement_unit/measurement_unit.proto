@@ -20,11 +20,11 @@ message MeasurementUnit {
 
 // MeasurementUnit Service for CRUD operations
 service MeasurementUnitHandler {
-  rpc CreateMeasurementUnit(CreateMeasurementUnitRequest) returns (CreateMeasurementUnitResponse);
-  rpc ReadMeasurementUnit(ReadMeasurementUnitRequest) returns (ReadMeasurementUnitResponse);
-  rpc UpdateMeasurementUnit(UpdateMeasurementUnitRequest) returns (UpdateMeasurementUnitResponse);
-  rpc DeleteMeasurementUnit(DeleteMeasurementUnitRequest) returns (DeleteMeasurementUnitResponse);
-  rpc SearchMeasurementUnits(SearchMeasurementUnitsRequest) returns (SearchMeasurementUnitsResponse);
+  rpc Create (CreateMeasurementUnitRequest) returns (CreateMeasurementUnitResponse);
+  rpc Read (ReadMeasurementUnitRequest) returns (ReadMeasurementUnitResponse);
+  rpc Update (UpdateMeasurementUnitRequest) returns (UpdateMeasurementUnitResponse);
+  rpc Delete (DeleteMeasurementUnitRequest) returns (DeleteMeasurementUnitResponse);
+  rpc Search (SearchMeasurementUnitsRequest) returns (SearchMeasurementUnitsResponse);
 }
 
 message CreateMeasurementUnitRequest {
